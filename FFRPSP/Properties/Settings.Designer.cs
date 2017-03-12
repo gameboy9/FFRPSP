@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FFRPSP.Properties
+namespace FF1PSPHacker.Properties
 {
 
 
