@@ -1,4 +1,4 @@
-﻿namespace FF1PSPHacker
+﻿namespace FFRPSP
 {
     partial class Form1
     {
@@ -287,6 +287,7 @@
             this.cmdPrintInfo.TabIndex = 62;
             this.cmdPrintInfo.Text = "Print Info";
             this.cmdPrintInfo.UseVisualStyleBackColor = true;
+            this.cmdPrintInfo.Visible = false;
             this.cmdPrintInfo.Click += new System.EventHandler(this.cmdPrintInfo_Click);
             // 
             // lblResults

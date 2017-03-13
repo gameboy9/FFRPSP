@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FF1PSPHacker
+namespace FFRPSP
 {
     static class Program
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace FF1PSPHacker
+namespace FFRPSP
 {
     public partial class Form1 : Form
     {
@@ -30,7 +30,7 @@ namespace FF1PSPHacker
             randomizeTreasures(r1);
 
             saveRom();
-            lblResults.Text = "Hacking complete!  (" + Path.Combine(Path.GetDirectoryName(txtFileName.Text), Path.GetFileNameWithoutExtension(txtFileName.Text) + "_" + txtSeed.Text + "_" + txtFlags.Text + ".iso");
+            lblResults.Text = "Hacking complete!  (" + Path.Combine(Path.GetDirectoryName(txtFileName.Text), Path.GetFileNameWithoutExtension(txtFileName.Text) + "_" + txtSeed.Text + "_" + txtFlags.Text + ".iso)");
         }
 
         private void printInformation()
@@ -468,7 +468,8 @@ namespace FF1PSPHacker
                 }
             }
 
-            using (StreamWriter writer = File.CreateText(@"c:\bizhawk\ff test\equipment.txt"))
+            using (StreamWriter writer = File.CreateText(
+              Path.Combine(Path.GetDirectoryName(txtFileName.Text), Path.GetFileNameWithoutExtension(txtFileName.Text) + "_" + txtSeed.Text + "_" + txtFlags.Text + "_equipment.txt")))
             {
                 string header = "";
                 header += "DEF".PadLeft(6);
@@ -1269,12 +1270,14 @@ namespace FF1PSPHacker
                 {
                     txtFlags.Text = reader.ReadLine();
                     determineChecks(null, null);
+                    txtFileName.Text = reader.ReadLine();
                 }
             } catch
             {
                 trkXPReqAdj.Value = 20;
                 trkXPBoost.Value = 0;
                 trkEncounterRate.Value = 10;
+                determineFlags(null, null);
             }
         }
 
@@ -1283,6 +1286,7 @@ namespace FF1PSPHacker
             using (StreamWriter writer = File.CreateText("lastFFR.txt"))
             {
                 writer.WriteLine(txtFlags.Text);
+                writer.WriteLine(txtFileName.Text);
             }
         }
     }
