@@ -116,31 +116,25 @@ namespace FFRPSP
 
         private void adjustEncounterRate()
         {
-            if (trkEncounterRate.Value != 100)
+            for (int lnI = 0x2b216a8; lnI < 0x2b21768; lnI += 2)
             {
-                for (int lnI = 0x2b216a8; lnI < 0x2b21768; lnI += 2)
-                {
-                    int encounterRate = (romData[lnI + 1] * 256) + romData[lnI];
-                    encounterRate = encounterRate * trkEncounterRate.Value / 100;
-                    romData[lnI] = (byte)(encounterRate % 256);
-                    romData[lnI + 1] = (byte)(encounterRate / 256);
-                }
+                int encounterRate = (romData[lnI + 1] * 256) + romData[lnI];
+                encounterRate = encounterRate * trkEncounterRate.Value * 10 / 100;
+                romData[lnI] = (byte)(encounterRate % 256);
+                romData[lnI + 1] = (byte)(encounterRate / 256);
             }
         }
 
         private void adjustXPRequirements()
         {
-            if (trkXPReqAdj.Value != 100)
+            for (int lnI = 0x2b2f438; lnI < 0x2b2f5c0; lnI += 4)
             {
-                for (int lnI = 0x2b2f438; lnI < 0x2b2f5c0; lnI += 4)
-                {
-                    int xpRequired = (romData[lnI + 3] * 16777216) + (romData[lnI + 2] * 65536) + (romData[lnI + 1] * 256) + romData[lnI];
-                    xpRequired = xpRequired * trkXPReqAdj.Value / 100;
-                    romData[lnI] = (byte)(xpRequired % 256);
-                    romData[lnI + 1] = (byte)((xpRequired / 256) % 256);
-                    romData[lnI + 2] = (byte)((xpRequired / 65536) % 256);
-                    romData[lnI + 3] = (byte)(xpRequired / 1677216);
-                }
+                int xpRequired = (romData[lnI + 3] * 16777216) + (romData[lnI + 2] * 65536) + (romData[lnI + 1] * 256) + romData[lnI];
+                xpRequired = xpRequired * trkXPReqAdj.Value * 5 / 100;
+                romData[lnI] = (byte)(xpRequired % 256);
+                romData[lnI + 1] = (byte)((xpRequired / 256) % 256);
+                romData[lnI + 2] = (byte)((xpRequired / 65536) % 256);
+                romData[lnI + 3] = (byte)(xpRequired / 1677216);
             }
         }
 
@@ -151,7 +145,7 @@ namespace FFRPSP
                 for (int lnI = 0x2b28480; lnI < 0x2b28480 + (203 * 0x24); lnI += 0x24)
                 {
                     int XP = (romData[lnI + 1] * 256) + romData[lnI];
-                    XP += trkXPBoost.Value;
+                    XP += (trkXPBoost.Value * 5);
                     romData[lnI] = (byte)(XP % 256);
                     romData[lnI + 1] = (byte)(XP / 256);
                 }
