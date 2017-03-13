@@ -363,6 +363,8 @@ namespace FFRPSP
                         romData[byteToUse + 7] = (byte)(r1.Next() % 0x41);
                     else
                         romData[byteToUse + 7] = 0;
+                    if (romData[byteToUse + 7] == 0x16 || romData[byteToUse + 7] == 0x33)
+                        romData[byteToUse + 7] = 0;
 
                     for (int lnJ = 11; lnJ <= 14; lnJ++)
                     {
@@ -379,7 +381,7 @@ namespace FFRPSP
                     double price = Math.Pow(romData[byteToUse + 4], 1.9) +
                                    Math.Pow(romData[byteToUse + 5], 1.85) +
                                    Math.Pow(romData[byteToUse + 6], 2.2) +
-                                   Math.Pow(romData[byteToUse + 7], 2.3) +
+                                   Math.Pow((romData[byteToUse + 7] - 1) % 32, 2.7) +
                                    Math.Pow(romData[byteToUse + 11], 2.7) +
                                    Math.Pow(romData[byteToUse + 12], 2.7) +
                                    Math.Pow(romData[byteToUse + 13], 2.7) +
@@ -444,7 +446,7 @@ namespace FFRPSP
 
                     double price = Math.Pow(romData[byteToUse + 4], 2.3) +
                                    Math.Pow(romData[byteToUse + 6] + romData[byteToUse + 5], 2) +
-                                   Math.Pow(romData[byteToUse + 7], 2.3) +
+                                   Math.Pow((romData[byteToUse + 7] - 1) % 32, 2.7) +
                                    Math.Pow(romData[byteToUse + 10], 2.7) +
                                    Math.Pow(romData[byteToUse + 11], 2.7) +
                                    Math.Pow(romData[byteToUse + 12], 2.7) +
