@@ -182,7 +182,6 @@
             this.chkRandomizeMonsterZones.TabIndex = 51;
             this.chkRandomizeMonsterZones.Text = "Randomize Monster Zones";
             this.chkRandomizeMonsterZones.UseVisualStyleBackColor = true;
-            this.chkRandomizeMonsterZones.Visible = false;
             this.chkRandomizeMonsterZones.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // chkRandomizeMonsterPatterns
