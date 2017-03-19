@@ -211,7 +211,7 @@ namespace FFRPSP
 
                 // Caves start at 0x2b21ff0
                 int[] caveZones =
-                    { 9, 9, 9, 9, 9, 9, -2,
+                    { -2, 9, 9, 9, 9, 9, 9, -2,
                     -2, -2, -2, -2, -2, -2, -2, -2,
                     -2, -2, -2, -2, -2, -2, -2, 25, // 0x10
                     25, 25, 25, 25, 25, 25, 25, 3,
@@ -280,10 +280,13 @@ namespace FFRPSP
                             lowZone = 130; highZone = 241; break;
                         case 40:
                             lowZone = 150; highZone = 241; break;
+                        default:
+                            lowZone = 0; highZone = 0; break;
                     }
 
-                    int byteToUse = 0x2b21ff0 + (0x8 * lnI);
-                    romData[byteToUse] = (byte)(r1.Next() % (highZone - lowZone + 1) + lowZone);
+                    int byteToUse = 0x2b21ff0 + (0x8 * lnI); // s/b 2b21ff0?!
+                    for (int lnJ = 0; lnJ < 8; lnJ++)
+                        romData[byteToUse + lnJ] = (byte)(battleRank[r1.Next() % (highZone - lowZone + 1) + lowZone]);
                 }
 
                 for (int lnI = 0; lnI < overworldZones.Length; lnI++)
@@ -315,10 +318,13 @@ namespace FFRPSP
                             lowZone = 0; highZone = 0; break;
                         case 10:
                             lowZone = 0; highZone = 237; break;
-
-                        int byteToUse = 0x2b218e4 + (0x8 * lnI);
-                        romData[byteToUse] = (byte)(r1.Next() % (highZone - lowZone + 1) + lowZone);
+                        default:
+                            lowZone = 0; highZone = 0; break;
                     }
+
+                    int byteToUse = 0x2b218e4 + (0x8 * lnI);
+                    for (int lnJ = 0; lnJ < 8; lnJ++)
+                        romData[byteToUse + lnJ] = (byte)(battleRank[r1.Next() % (highZone - lowZone + 1) + lowZone]);
                 }
             }
         }
@@ -505,13 +511,13 @@ namespace FFRPSP
                     int spellPrice = (romData[byteToUse + 7] > 32 ? romData[byteToUse + 7] - 32 : romData[byteToUse + 7]);
                     double price = Math.Pow(romData[byteToUse + 4], 1.9) +
                                    Math.Pow(romData[byteToUse + 5], 1.85) +
-                                   Math.Pow(romData[byteToUse + 6], 2.2) +
+                                   Math.Pow((romData[byteToUse + 6] > 128 ? 0 : romData[byteToUse + 6]), 2.2) +
                                    Math.Pow(spellPrice % 32, 2.7) +
-                                   Math.Pow(romData[byteToUse + 11], 2.7) +
-                                   Math.Pow(romData[byteToUse + 12], 2.7) +
-                                   Math.Pow(romData[byteToUse + 13], 2.7) +
-                                   Math.Pow(romData[byteToUse + 14], 2.7) +
-                                   Math.Pow(romData[byteToUse + 15], 2.2);
+                                   Math.Pow((romData[byteToUse + 11] > 128 ? 0 : romData[byteToUse + 11]), 2.7) +
+                                   Math.Pow((romData[byteToUse + 12] > 128 ? 0 : romData[byteToUse + 12]), 2.7) +
+                                   Math.Pow((romData[byteToUse + 13] > 128 ? 0 : romData[byteToUse + 13]), 2.7) +
+                                   Math.Pow((romData[byteToUse + 14] > 128 ? 0 : romData[byteToUse + 14]), 2.7) +
+                                   Math.Pow((romData[byteToUse + 15] > 128 ? 0 : romData[byteToUse + 15]), 2.2);
                     price = Math.Ceiling(price);
                     price = (price > 99999 ? 99999 : price);
                     price = (price < 4 ? 4 : price);
@@ -569,13 +575,14 @@ namespace FFRPSP
                             romData[byteToUse + lnJ] = 0;
                     }
 
+                    int spellPrice = (romData[byteToUse + 7] > 32 ? romData[byteToUse + 7] - 32 : romData[byteToUse + 7]);
                     double price = Math.Pow(romData[byteToUse + 4], 2.3) +
                                    Math.Pow(romData[byteToUse + 6] + romData[byteToUse + 5], 2) +
-                                   Math.Pow((romData[byteToUse + 7] - 1) % 32, 2.7) +
-                                   Math.Pow(romData[byteToUse + 10], 2.7) +
-                                   Math.Pow(romData[byteToUse + 11], 2.7) +
-                                   Math.Pow(romData[byteToUse + 12], 2.7) +
-                                   Math.Pow(romData[byteToUse + 13], 2.7) +
+                                   Math.Pow(spellPrice, 2.7) +
+                                   Math.Pow((romData[byteToUse + 10] > 128 ? 0 : romData[byteToUse + 10]), 2.7) +
+                                   Math.Pow((romData[byteToUse + 11] > 128 ? 0 : romData[byteToUse + 11]), 2.7) +
+                                   Math.Pow((romData[byteToUse + 12] > 128 ? 0 : romData[byteToUse + 12]), 2.7) +
+                                   Math.Pow((romData[byteToUse + 13] > 128 ? 0 : romData[byteToUse + 13]), 2.7) +
                                    Math.Pow(romData[byteToUse + 14], 2.7) +
                                    Math.Pow(romData[byteToUse + 15], 2.7);
                     price = Math.Ceiling(price);
