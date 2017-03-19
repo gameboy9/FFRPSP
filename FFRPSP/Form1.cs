@@ -9,6 +9,7 @@ namespace FFRPSP
     {
         byte[] romData;
         byte[] livePatch;
+        bool loading = true;
 
         public Form1()
         {
@@ -1339,6 +1340,9 @@ namespace FFRPSP
 
         private void determineFlags(object sender, EventArgs e)
         {
+            if (loading)
+                return;
+
             string flags = "";
             int number = (chkRandomizeMonsterZones.Checked ? 1 : 0) + (chkRandomizeSpecialMonsters.Checked ? 2 : 0) + (chkRandomizeMonsterPatterns.Checked ? 4 : 0) + 
                 (chkRandomizeEquipment.Checked ? 8 : 0) + (chkRandomizeTreasures.Checked ? 16 : 0);
@@ -1405,6 +1409,7 @@ namespace FFRPSP
                     txtFlags.Text = reader.ReadLine();
                     determineChecks(null, null);
                     txtFileName.Text = reader.ReadLine();
+                    loading = false;
                 }
             } catch
             {
@@ -1412,6 +1417,7 @@ namespace FFRPSP
                 trkXPBoost.Value = 0;
                 trkEncounterRate.Value = 10;
                 determineFlags(null, null);
+                loading = false;
             }
         }
 
