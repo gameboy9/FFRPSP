@@ -30,6 +30,7 @@ namespace FFRPSP
             randomizeMonsterPatterns(r1);
             randomizeTreasures(r1);
             randomizeMonsterZonesV2(r1);
+            randomizeStores(r1);
 
             saveRom();
             lblResults.Text = "Hacking complete!  (" + Path.Combine(Path.GetDirectoryName(txtFileName.Text), Path.GetFileNameWithoutExtension(txtFileName.Text) + "_" + txtSeed.Text + "_" + txtFlags.Text + ".iso)");
@@ -105,6 +106,19 @@ namespace FFRPSP
             //        writer.WriteLine(line);
             //    }
             //}
+            using (StreamWriter writer = File.CreateText(@"c:\bizhawk\ff test\magic_info.txt"))
+            {
+                for (int i = 0; i < 0x50; i++)
+                {
+                    int byteToUse = 0x2b30d6e + (14 * i);
+                    string line = "";
+                    for (int j = 0; j < 14; j++)
+                    {
+                        line += romData[byteToUse + j].ToString("X2") + " ";
+                    }
+                    writer.WriteLine(line);
+                }
+            }
         }
 
         private void overrideEboot()
@@ -1267,6 +1281,75 @@ namespace FFRPSP
             }
         }
 
+        private void randomizeStores(Random r1)
+        {
+            // Need to set buy prices for various items... start at 0x2b2f95b
+            int[] itemPrices = 
+                { 40, 150, 1500, 150, 500, 10000, 15000, 100000,
+                  500, 1500, 50, 500, 50, 50, 1000, 50,
+                  160, 2000, 300, 500, 500, 500, 1000, 300,
+                  300, 300, 500, 6500, 1000, 5000, 1500, 1500,
+                  1000, 1000, 1000, 50000, 30000, 100000, 100000, 100000,
+                  100000, 100000, 100000 };
+            for (int lnI = 0; lnI < 0x2b; lnI++)
+            {
+                int byteToUse = 0x2b2f95b + (0x10 * lnI);
+                romData[byteToUse + 0] = (byte)(itemPrices[lnI] % 256);
+                romData[byteToUse + 1] = (byte)((itemPrices[lnI] / 256) % 256);
+                romData[byteToUse + 2] = (byte)((itemPrices[lnI] / 65536) % 256);
+                romData[byteToUse + 3] = 0;
+            }
+
+            if (chkRandomizeStores.Checked)
+            {
+                int[] cityStarts = { 0, 28, 60, 100, 124, 156, 172, 204 };
+                int[,] stores =
+                {
+                    { 1, 1, 1, 1, 1, -1, 1, -1 },
+                    { 9, 9, 9, 9, 9, -1, 5, -1 },
+                    { 13, 17, 17, -1, 17, 1, 9, -1 },
+                    { 20, 24, 24, 16, 24, 8, 16, 0 },
+                    { -1, -1, 28, -1, -1, -1, 20, -1 },
+                    { 24, 28, 32, 20, 28, 12, 24, 4 },
+                    { -1, -1, 36, -1, -1, -1, 28, -1 }
+                };
+                int[,] storeSizes =
+                {
+                    { 5, 4, 4, 4, 4, -1, 1, -1 },
+                    { 3, 5, 5, 5, 5, -1, 2, -1 },
+                    { 4, 5, 5, -1, 5, 5, 5, -1 },
+                    { 4, 4, 4, 4, 4, 2, 2, 1 },
+                    { -1, -1, 4, -1, -1, -1, 3, -1 },
+                    { 4, 4, 4, 4, 4, 2, 2, 1 },
+                    { -1, -1, 4, -1, -1, -1, 3, -1 }
+                };
+                //int[] weaponStores = { 1, 1, 1, 1, 1, -1, 1, -1 };
+                //int[] armorStores = { 9, 9, 9, 9, 9, -1, 5, -1 };
+                //int[] itemStores = { 13, 17, 17, -1, 17, 1, 9, -1 };
+                //int[] magicStoresWhite1 = { 20, 24, 24, 16, 24, 8, 16, 0 };
+                //int[] magicStoresWhite2 = { -1, -1, 32, -1, -1, -1, 24, -1 };
+                //int[] magicStoresBlack1 = { 20, 24, 24, 16, 24, 8, 16, 0 };
+                //int[] magicStoresBlack2 = { -1, -1, 36, -1, -1, -1, 28, -1 };
+
+                int[] minNumber = { 1, 1, 1, 1, 1, 0x21, 0x21 };
+                int[] maxNumber = { 0x43, 0x4b, 0x2b, 0x20, 0x20, 0x40, 0x40 };
+
+                for (int lnI = 0; lnI < 8; lnI++)
+                    for (int lnJ = 0; lnJ < 7; lnJ++)
+                    {
+                        List<int> storeStack = new List<int>();
+                        for (int lnK = 0; lnK < storeSizes[lnJ, lnI]; lnK++)
+                        {
+                            if (stores[lnJ, lnI] == -1) continue;
+                            int byteToUse = 0x2b1a1dc + (cityStarts[lnI] + stores[lnJ, lnI]) + lnK;
+                            romData[byteToUse] = (byte)(r1.Next() % (maxNumber[lnJ] - minNumber[lnJ] + 1) + minNumber[lnJ]);
+                            if (storeStack.IndexOf(romData[byteToUse]) != -1) lnK--;
+                            else storeStack.Add(romData[byteToUse]);
+                        }
+                    }
+            }
+        }
+
         private int inverted_power_curve(int min, int max, double powToUse, Random r1)
         {
             int range = max - min;
@@ -1345,7 +1428,7 @@ namespace FFRPSP
 
             string flags = "";
             int number = (chkRandomizeMonsterZones.Checked ? 1 : 0) + (chkRandomizeSpecialMonsters.Checked ? 2 : 0) + (chkRandomizeMonsterPatterns.Checked ? 4 : 0) + 
-                (chkRandomizeEquipment.Checked ? 8 : 0) + (chkRandomizeTreasures.Checked ? 16 : 0);
+                (chkRandomizeEquipment.Checked ? 8 : 0) + (chkRandomizeTreasures.Checked ? 16 : 0) + (chkRandomizeStores.Checked ? 32 : 0);
             flags += convertIntToChar(number);
             flags += convertIntToChar(trkXPReqAdj.Value);
             flags += convertIntToChar(trkXPBoost.Value);
@@ -1363,6 +1446,7 @@ namespace FFRPSP
             chkRandomizeMonsterPatterns.Checked = (number % 8 >= 4);
             chkRandomizeEquipment.Checked = (number % 16 >= 8);
             chkRandomizeTreasures.Checked = (number % 32 >= 16);
+            chkRandomizeStores.Checked = (number % 64 >= 32);
             trkXPReqAdj.Value = convertChartoInt(Convert.ToChar(flags.Substring(1, 1)));
             trkXPReqAdj_Scroll(null, null);
             trkXPBoost.Value = convertChartoInt(Convert.ToChar(flags.Substring(2, 1)));

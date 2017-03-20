@@ -52,6 +52,7 @@
             this.chkRandomizeSpecialMonsters = new System.Windows.Forms.CheckBox();
             this.cmdPrintInfo = new System.Windows.Forms.Button();
             this.lblResults = new System.Windows.Forms.Label();
+            this.chkRandomizeStores = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trkXPReqAdj)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkXPBoost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkEncounterRate)).BeginInit();
@@ -286,7 +287,6 @@
             this.cmdPrintInfo.TabIndex = 62;
             this.cmdPrintInfo.Text = "Print Info";
             this.cmdPrintInfo.UseVisualStyleBackColor = true;
-            this.cmdPrintInfo.Visible = false;
             this.cmdPrintInfo.Click += new System.EventHandler(this.cmdPrintInfo_Click);
             // 
             // lblResults
@@ -297,11 +297,23 @@
             this.lblResults.Size = new System.Drawing.Size(0, 13);
             this.lblResults.TabIndex = 63;
             // 
+            // chkRandomizeStores
+            // 
+            this.chkRandomizeStores.AutoSize = true;
+            this.chkRandomizeStores.Location = new System.Drawing.Point(205, 150);
+            this.chkRandomizeStores.Name = "chkRandomizeStores";
+            this.chkRandomizeStores.Size = new System.Drawing.Size(112, 17);
+            this.chkRandomizeStores.TabIndex = 64;
+            this.chkRandomizeStores.Text = "Randomize Stores";
+            this.chkRandomizeStores.UseVisualStyleBackColor = true;
+            this.chkRandomizeStores.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(672, 270);
+            this.Controls.Add(this.chkRandomizeStores);
             this.Controls.Add(this.lblResults);
             this.Controls.Add(this.cmdPrintInfo);
             this.Controls.Add(this.chkRandomizeSpecialMonsters);
@@ -364,6 +376,7 @@
         private System.Windows.Forms.CheckBox chkRandomizeSpecialMonsters;
         private System.Windows.Forms.Button cmdPrintInfo;
         private System.Windows.Forms.Label lblResults;
+        private System.Windows.Forms.CheckBox chkRandomizeStores;
     }
 }
 
