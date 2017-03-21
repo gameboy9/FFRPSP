@@ -1293,7 +1293,7 @@ namespace FFRPSP
                   100000, 100000, 100000 };
             for (int lnI = 0; lnI < 0x2b; lnI++)
             {
-                int byteToUse = 0x2b2f95b + (0x10 * lnI);
+                int byteToUse = 0x2b2f95c + (0x10 * lnI);
                 romData[byteToUse + 0] = (byte)(itemPrices[lnI] % 256);
                 romData[byteToUse + 1] = (byte)((itemPrices[lnI] / 256) % 256);
                 romData[byteToUse + 2] = (byte)((itemPrices[lnI] / 65536) % 256);
