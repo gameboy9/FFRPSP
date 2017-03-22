@@ -164,6 +164,10 @@ namespace FFRPSP
                     XP += (trkXPBoost.Value * 5);
                     romData[lnI] = (byte)(XP % 256);
                     romData[lnI + 1] = (byte)(XP / 256);
+                    int GP = (romData[lnI + 3] * 256) + romData[lnI + 2];
+                    GP += (trkXPBoost.Value * 5);
+                    romData[lnI + 2] = (byte)(GP % 256);
+                    romData[lnI + 3] = (byte)(GP / 256);
                 }
             }
         }
@@ -344,142 +348,6 @@ namespace FFRPSP
             }
         }
 
-        // Cannot randomize monster zones at this time; PPSSPP crashes every time... huh...
-
-        //private void randomizeMonsterZones(Random r1)
-        //{
-        //    int[] monsterRank =
-        //    {
-        //        0x00, 0x15, 0x01, 0x02, 0x2b, 0x0c, 0x49, 0x0f,
-        //        0x13, 0x10, 0x74, 0x17, 0x45, 0x27, 0x03, 0x2c,
-        //        0x0d, 0x2d, 0x1e, 0x69, 0x3e, 0x04, 0x4a, 0x2e,
-        //        0x06, 0x1f, 0x18, 0x51, 0x1b, 0x21, 0x28, 0x57,
-        //        0x47, 0x46, 0x11, 0x67, 0x1c, 0x19, 0x4f, 0x16,
-        //        0x3f, 0x05, 0x52, 0x29, 0x3a, 0x23, 0x58, 0x37,
-        //        0x25, 0x22, 0x34, 0x1d, 0x36, 0x59, 0x68, 0x3b,
-        //        0x26, 0x09, 0x0e, 0x5d, 0x20, 0x2a, 0x50, 0x24,
-        //        0x72, 0x48, 0x4c, 0x53, 0x1a, 0x38, 0x3c, 0x5e,
-        //        0x35, 0x54, 0x5f, 0x5b, 0x6c, 0x6f, 0x75, 0x4b,
-        //        0x4d, 0x0b, 0x40, 0x62, 0x41, 0x31, 0x42, 0x0a,
-        //        0x5a, 0x61, 0x08, 0x65, 0x33, 0x39, 0x71, 0x44,
-        //        0x63, 0x12, 0x3d, 0x6d, 0x07, 0x4e, 0x30, 0x70,
-        //        0x43, 0x5c, 0x32, 0x6b, 0x55, 0x73, 0x64, 0x14,
-        //        0x60, 0x6a, 0x2f, 0x66, 0x6e, 0x56, 0x76, 0x77, // May want to stop at index 117.  Warmech is index 118, the fiends are indexes 119-126.
-        //        0x78, 0x79, 0x7a, 0x7b, 0x7c, 0x7d, 0x7e
-        //    };
-
-        //    int[] monsterSize =
-        //    {
-        //        1, 1, 1, 1, 1, 1, 2, 2,
-        //        2, 2, 2, 2, 1, 1, 1, 1,
-        //        1, 2, 2, 2, 2, 1, 1, 1,
-        //        1, 2, 2, 2, 2, 2, 1, 1,
-        //        1, 1, 1, 2, 2, 2, 2, 1,
-        //        1, 1, 1, 1, 1, 1, 1, 2,
-        //        2, 2, 2, 2, 1, 1, 1, 1,
-        //        2, 2, 2, 2, 1, 1, 1, 1,
-        //        2, 2, 2, 2, 2, 1, 1, 1,
-        //        1, 1, 1, 2, 2, 2, 2, 1,
-        //        1, 1, 1, 2, 2, 2, 2, 1,
-        //        1, 1, 1, 2, 2, 2, 2, 1,
-        //        1, 1, 1, 2, 2, 2, 2, 1,
-        //        1, 3, 2, 2, 2, 2, 2, 1,
-        //        1, 3, 1, 1, 2, 2, 2, 3,
-        //        3, 3, 3, 3, 3, 3, 3
-        //    };
-
-        //    // Mark overworld zones, then mark caves
-        //    // Overworld starts at 0x2b218e4
-        //    int[] overworldZones = { 10, 10, 10, 10, 10, 10, 10, 10,
-        //                           10, 10, 10, 10, 10, 10, 10, 10,
-        //                           10, 10, -1, 10, -1, 10, 10, 10,
-        //                           -1, -1, -1,  3,  3,  4, -1, 10,
-        //                           -1,  7,  5,  5,  2,  4,  4, 10,
-        //                            7,  7,  7,  5,  1,  5, 10, 10,
-        //                           -1, -1,  6,  5,  5,  8, 10, 10,
-        //                           -1, -1,  6,  6,  5,  8, 10, 10 };
-
-        //    // Caves start at 0x2b21ff0
-        //    int[] caveZones =
-        //        { 9, 9, 9, 9, 9, 9, -2,
-        //        -2, -2, -2, -2, -2, -2, -2, -2,
-        //        -2, -2, -2, -2, -2, -2, -2, 25,
-        //        25, 25, 25, 25, 25, 25, 25, 3,
-        //        40, 40, 40, 40, 40, 40, 40, 40,
-        //         8, 12, 12, 12, 12, 12, 12, -2,
-        //        -2, -2, -2, -2, -2, -2, -2, -2,
-        //        -2, -2, 15, 15, 15, 15, 15, -2,
-        //        -2, -2, -2, -2, -2, 20, 20, 20,
-        //        30, 30, 30, 28, -2, -2, -2, -2,
-        //        -2,  7,  7,  7, 35, 35, 35, 35,
-        //        35, -2, -2, -2, -2, -2, -2, -2,
-        //        -2, -2, -2, -2, -2, -2, -2, -2,
-        //        -2, -2, -2, -2, -2, -2 };
-
-        //    // Fill in monster sets one at a time.  Maximum monster starts at 2, continuing to add 2 until you reach index 118, then, at set 128, add 1 to the minimum until you reach the maximum of 80.  255 sets total.
-        //    for (int i = 1; i <= 256; i++)
-        //    {
-        //        // Do not alter fiend, Garland, and Chaos battles.  But do alter the nine pirate fight.  That will be a zone 5 fight.
-        //        if ((i >= 116 && i <= 128) && i != 127) continue;
-
-        //        int minimum = (i <= 128 ? 0 : i - 128);
-        //        minimum = (minimum > 80 ? 80 : minimum);
-        //        int maximum = (i * 2);
-        //        maximum = (maximum > 118 ? 118 : maximum);
-
-        //        List<monsterGroups> allGroups = new List<monsterGroups>();
-        //        int groups = (r1.Next() % 4) + 1;
-        //        int maxMonsters = (r1.Next() % 15) + 1;
-        //        int totalMonsters = 0;
-        //        int totalGroups = 0;
-        //        for (int j = 0; j < groups && totalMonsters < 9; j++)
-        //        {
-        //            int monsterChoice = (r1.Next() % (maximum - minimum)) + minimum;
-        //            int maxSet = r1.Next() % (int)(Math.Ceiling((double)maxMonsters / groups));
-        //            int minSet = r1.Next() % maxSet;
-        //            minSet = (minSet + totalMonsters > 9 ? 9 - totalMonsters : minSet);
-        //            maxSet = (maxSet + totalMonsters > 9 ? 9 - totalMonsters : maxSet);
-        //            totalMonsters += maxSet;
-        //            totalGroups++;
-        //            monsterGroups newGroup = new monsterGroups();
-        //            newGroup.monster = monsterChoice;
-        //            newGroup.minSet = minSet;
-        //            newGroup.maxSet = maxSet;
-        //            allGroups.Add(newGroup);
-        //        }
-        //        int screenMonsters = 0;
-        //        bool largeMonster1 = false;
-        //        bool largeMonster2 = false;
-        //        bool superMonster = false;
-        //        foreach (monsterGroups group in allGroups)
-        //        {
-        //            if (monsterSize[monsterRank[group.monster]] == 3)
-        //            {
-        //                if (screenMonsters > 0)
-        //                    continue;
-        //                else
-        //                {
-        //                    superMonster = true;
-        //                    screenMonsters = 9;
-        //                    totalGroups = 1;
-        //                    break;
-        //                }
-        //            }
-        //            if (monsterSize[monsterRank[group.monster]] == 2)
-        //            {
-
-        //            }
-        //        }
-        //    }
-        //}
-
-        //public class monsterGroups
-        //{
-        //    public int monster = 0;
-        //    public int minSet = 0;
-        //    public int maxSet = 0;
-        //}
-
         private void randomizeEquipment(Random r1)
         {
             if (chkRandomizeEquipment.Checked)
@@ -537,6 +405,8 @@ namespace FFRPSP
                     price = (price > 99999 ? 99999 : price);
                     price = (price < 4 ? 4 : price);
                     int buyPrice = (int)price;
+                    buyPrice = buyPrice * trkXPReqAdj.Value * 5 / 100;
+
                     int sellPrice = r1.Next() % buyPrice;
                     romData[byteToUse + 20] = (byte)(buyPrice % 256);
                     romData[byteToUse + 21] = (byte)((buyPrice / 256) % 256);
@@ -604,6 +474,8 @@ namespace FFRPSP
                     price = (price > 99999 ? 99999 : price);
                     price = (price < 4 ? 4 : price);
                     int buyPrice = (int)price;
+                    buyPrice = buyPrice * trkXPReqAdj.Value * 5 / 100;
+
                     int sellPrice = r1.Next() % buyPrice;
                     romData[byteToUse + 20] = (byte)(buyPrice % 256);
                     romData[byteToUse + 21] = (byte)((buyPrice / 256) % 256);
@@ -1281,9 +1153,18 @@ namespace FFRPSP
             }
         }
 
+        private int ScaleValue(int value, double scale, double adjustment, Random r1)
+        {
+            var exponent = (double)r1.Next() / int.MaxValue * 2.0 - 1.0;
+            var adjustedScale = 1.0 + adjustment * (scale - 1.0);
+
+            return (int)Math.Round(Math.Pow(adjustedScale, exponent) * value, MidpointRounding.AwayFromZero);
+        }
+
         private void randomizeStores(Random r1)
         {
             // Need to set buy prices for various items... start at 0x2b2f95b
+            // Pete's a jerk
             int[] itemPrices = 
                 { 40, 150, 1500, 150, 500, 10000, 15000, 100000,
                   500, 1500, 50, 500, 50, 50, 1000, 50,
@@ -1294,10 +1175,25 @@ namespace FFRPSP
             for (int lnI = 0; lnI < 0x2b; lnI++)
             {
                 int byteToUse = 0x2b2f95c + (0x10 * lnI);
+                itemPrices[lnI] = itemPrices[lnI] * trkXPReqAdj.Value * 5 / 100;
+
+                itemPrices[lnI] = ScaleValue(itemPrices[lnI], trkRandomPrices.Value / 10, 1.0, r1);
+
                 romData[byteToUse + 0] = (byte)(itemPrices[lnI] % 256);
                 romData[byteToUse + 1] = (byte)((itemPrices[lnI] / 256) % 256);
                 romData[byteToUse + 2] = (byte)((itemPrices[lnI] / 65536) % 256);
                 romData[byteToUse + 3] = 0;
+            }
+
+            // Randomize magic store prices - 0x2b30d6e + 12/13
+            for (int lnI = 0; lnI <= 64; lnI++)
+            {
+                int byteToUse = (0x2b30d6e + (14 * lnI) + 12);
+                int price = (romData[byteToUse + 1] * 256) + romData[byteToUse];
+                price = ScaleValue(price, trkRandomPrices.Value / 10, 1.0, r1);
+                price = (price > 65500 ? 65500 : price);
+                romData[byteToUse] = (byte)(price % 256);
+                romData[byteToUse + 1] = (byte)(price / 256);
             }
 
             if (chkRandomizeStores.Checked)
@@ -1323,13 +1219,6 @@ namespace FFRPSP
                     { 4, 4, 4, 4, 4, 2, 2, 1 },
                     { -1, -1, 4, -1, -1, -1, 3, -1 }
                 };
-                //int[] weaponStores = { 1, 1, 1, 1, 1, -1, 1, -1 };
-                //int[] armorStores = { 9, 9, 9, 9, 9, -1, 5, -1 };
-                //int[] itemStores = { 13, 17, 17, -1, 17, 1, 9, -1 };
-                //int[] magicStoresWhite1 = { 20, 24, 24, 16, 24, 8, 16, 0 };
-                //int[] magicStoresWhite2 = { -1, -1, 32, -1, -1, -1, 24, -1 };
-                //int[] magicStoresBlack1 = { 20, 24, 24, 16, 24, 8, 16, 0 };
-                //int[] magicStoresBlack2 = { -1, -1, 36, -1, -1, -1, 28, -1 };
 
                 int[] minNumber = { 1, 1, 1, 1, 1, 0x21, 0x21 };
                 int[] maxNumber = { 0x43, 0x4b, 0x2b, 0x20, 0x20, 0x40, 0x40 };
@@ -1412,6 +1301,18 @@ namespace FFRPSP
         private void trkEncounterRate_Scroll(object sender, EventArgs e)
         {
             lblEncounterRate.Text = "Encounter Rate = " + (trkEncounterRate.Value * 10).ToString() + "%";
+        }
+
+        private void trkRandomPrices_Scroll(object sender, EventArgs e)
+        {
+            int minimum = 10000 / trkRandomPrices.Value / 10;
+            lblRandomPrices.Text = minimum.ToString() + "-" + (trkRandomPrices.Value * 10).ToString() + "%";
+        }
+
+        private void trkRandomStats_Scroll(object sender, EventArgs e)
+        {
+            int minimum = 10000 / trkRandomStats.Value / 10;
+            lblRandomPrices.Text = minimum.ToString() + "-" + (trkRandomPrices.Value * 10).ToString() + "%";
         }
 
         private void cmdPrintInfo_Click(object sender, EventArgs e)

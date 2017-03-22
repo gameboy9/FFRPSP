@@ -53,9 +53,15 @@
             this.cmdPrintInfo = new System.Windows.Forms.Button();
             this.lblResults = new System.Windows.Forms.Label();
             this.chkRandomizeStores = new System.Windows.Forms.CheckBox();
+            this.lblRandomPrices = new System.Windows.Forms.Label();
+            this.trkRandomPrices = new System.Windows.Forms.TrackBar();
+            this.lblRandomEnemyStats = new System.Windows.Forms.Label();
+            this.trkRandomStats = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.trkXPReqAdj)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkXPBoost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkEncounterRate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkRandomPrices)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkRandomStats)).BeginInit();
             this.SuspendLayout();
             // 
             // btnBrowse
@@ -86,7 +92,7 @@
             // 
             // btnFF1Monsters
             // 
-            this.btnFF1Monsters.Location = new System.Drawing.Point(12, 201);
+            this.btnFF1Monsters.Location = new System.Drawing.Point(12, 305);
             this.btnFF1Monsters.Name = "btnFF1Monsters";
             this.btnFF1Monsters.Size = new System.Drawing.Size(75, 24);
             this.btnFF1Monsters.TabIndex = 42;
@@ -97,7 +103,7 @@
             // chkRandomizeEquipment
             // 
             this.chkRandomizeEquipment.AutoSize = true;
-            this.chkRandomizeEquipment.Location = new System.Drawing.Point(205, 104);
+            this.chkRandomizeEquipment.Location = new System.Drawing.Point(352, 103);
             this.chkRandomizeEquipment.Name = "chkRandomizeEquipment";
             this.chkRandomizeEquipment.Size = new System.Drawing.Size(132, 17);
             this.chkRandomizeEquipment.TabIndex = 44;
@@ -108,7 +114,7 @@
             // trkXPReqAdj
             // 
             this.trkXPReqAdj.LargeChange = 4;
-            this.trkXPReqAdj.Location = new System.Drawing.Point(404, 99);
+            this.trkXPReqAdj.Location = new System.Drawing.Point(18, 182);
             this.trkXPReqAdj.Maximum = 40;
             this.trkXPReqAdj.Minimum = 4;
             this.trkXPReqAdj.Name = "trkXPReqAdj";
@@ -123,24 +129,24 @@
             // lblXPReqAdj
             // 
             this.lblXPReqAdj.AutoSize = true;
-            this.lblXPReqAdj.Location = new System.Drawing.Point(514, 103);
+            this.lblXPReqAdj.Location = new System.Drawing.Point(17, 230);
             this.lblXPReqAdj.Name = "lblXPReqAdj";
-            this.lblXPReqAdj.Size = new System.Drawing.Size(137, 13);
+            this.lblXPReqAdj.Size = new System.Drawing.Size(107, 13);
             this.lblXPReqAdj.TabIndex = 46;
-            this.lblXPReqAdj.Text = "XP Req Adjustment = 100%";
+            this.lblXPReqAdj.Text = "XP/GP Reqs = 100%";
             // 
             // lblXPBoost
             // 
             this.lblXPBoost.AutoSize = true;
-            this.lblXPBoost.Location = new System.Drawing.Point(514, 150);
+            this.lblXPBoost.Location = new System.Drawing.Point(155, 230);
             this.lblXPBoost.Name = "lblXPBoost";
-            this.lblXPBoost.Size = new System.Drawing.Size(116, 13);
+            this.lblXPBoost.Size = new System.Drawing.Size(92, 13);
             this.lblXPBoost.TabIndex = 48;
-            this.lblXPBoost.Text = "Monster XP Boost = +0";
+            this.lblXPBoost.Text = "XP/Gil Boost = +0";
             // 
             // trkXPBoost
             // 
-            this.trkXPBoost.Location = new System.Drawing.Point(404, 150);
+            this.trkXPBoost.Location = new System.Drawing.Point(149, 178);
             this.trkXPBoost.Maximum = 20;
             this.trkXPBoost.Name = "trkXPBoost";
             this.trkXPBoost.Size = new System.Drawing.Size(104, 45);
@@ -153,7 +159,7 @@
             // trkEncounterRate
             // 
             this.trkEncounterRate.LargeChange = 10;
-            this.trkEncounterRate.Location = new System.Drawing.Point(404, 201);
+            this.trkEncounterRate.Location = new System.Drawing.Point(281, 178);
             this.trkEncounterRate.Maximum = 40;
             this.trkEncounterRate.Minimum = 2;
             this.trkEncounterRate.Name = "trkEncounterRate";
@@ -168,7 +174,7 @@
             // lblEncounterRate
             // 
             this.lblEncounterRate.AutoSize = true;
-            this.lblEncounterRate.Location = new System.Drawing.Point(514, 201);
+            this.lblEncounterRate.Location = new System.Drawing.Point(273, 230);
             this.lblEncounterRate.Name = "lblEncounterRate";
             this.lblEncounterRate.Size = new System.Drawing.Size(120, 13);
             this.lblEncounterRate.TabIndex = 50;
@@ -177,7 +183,7 @@
             // chkRandomizeMonsterZones
             // 
             this.chkRandomizeMonsterZones.AutoSize = true;
-            this.chkRandomizeMonsterZones.Location = new System.Drawing.Point(12, 104);
+            this.chkRandomizeMonsterZones.Location = new System.Drawing.Point(159, 103);
             this.chkRandomizeMonsterZones.Name = "chkRandomizeMonsterZones";
             this.chkRandomizeMonsterZones.Size = new System.Drawing.Size(153, 17);
             this.chkRandomizeMonsterZones.TabIndex = 51;
@@ -188,7 +194,7 @@
             // chkRandomizeMonsterPatterns
             // 
             this.chkRandomizeMonsterPatterns.AutoSize = true;
-            this.chkRandomizeMonsterPatterns.Location = new System.Drawing.Point(12, 150);
+            this.chkRandomizeMonsterPatterns.Location = new System.Drawing.Point(159, 149);
             this.chkRandomizeMonsterPatterns.Name = "chkRandomizeMonsterPatterns";
             this.chkRandomizeMonsterPatterns.Size = new System.Drawing.Size(162, 17);
             this.chkRandomizeMonsterPatterns.TabIndex = 52;
@@ -199,7 +205,7 @@
             // chkRandomizeTreasures
             // 
             this.chkRandomizeTreasures.AutoSize = true;
-            this.chkRandomizeTreasures.Location = new System.Drawing.Point(205, 127);
+            this.chkRandomizeTreasures.Location = new System.Drawing.Point(352, 126);
             this.chkRandomizeTreasures.Name = "chkRandomizeTreasures";
             this.chkRandomizeTreasures.Size = new System.Drawing.Size(129, 17);
             this.chkRandomizeTreasures.TabIndex = 53;
@@ -271,7 +277,7 @@
             // chkRandomizeSpecialMonsters
             // 
             this.chkRandomizeSpecialMonsters.AutoSize = true;
-            this.chkRandomizeSpecialMonsters.Location = new System.Drawing.Point(12, 127);
+            this.chkRandomizeSpecialMonsters.Location = new System.Drawing.Point(159, 126);
             this.chkRandomizeSpecialMonsters.Name = "chkRandomizeSpecialMonsters";
             this.chkRandomizeSpecialMonsters.Size = new System.Drawing.Size(182, 17);
             this.chkRandomizeSpecialMonsters.TabIndex = 61;
@@ -281,7 +287,7 @@
             // 
             // cmdPrintInfo
             // 
-            this.cmdPrintInfo.Location = new System.Drawing.Point(119, 202);
+            this.cmdPrintInfo.Location = new System.Drawing.Point(119, 306);
             this.cmdPrintInfo.Name = "cmdPrintInfo";
             this.cmdPrintInfo.Size = new System.Drawing.Size(75, 23);
             this.cmdPrintInfo.TabIndex = 62;
@@ -292,7 +298,7 @@
             // lblResults
             // 
             this.lblResults.AutoSize = true;
-            this.lblResults.Location = new System.Drawing.Point(12, 241);
+            this.lblResults.Location = new System.Drawing.Point(222, 311);
             this.lblResults.Name = "lblResults";
             this.lblResults.Size = new System.Drawing.Size(0, 13);
             this.lblResults.TabIndex = 63;
@@ -300,7 +306,7 @@
             // chkRandomizeStores
             // 
             this.chkRandomizeStores.AutoSize = true;
-            this.chkRandomizeStores.Location = new System.Drawing.Point(205, 150);
+            this.chkRandomizeStores.Location = new System.Drawing.Point(352, 149);
             this.chkRandomizeStores.Name = "chkRandomizeStores";
             this.chkRandomizeStores.Size = new System.Drawing.Size(112, 17);
             this.chkRandomizeStores.TabIndex = 64;
@@ -308,11 +314,61 @@
             this.chkRandomizeStores.UseVisualStyleBackColor = true;
             this.chkRandomizeStores.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
+            // lblRandomPrices
+            // 
+            this.lblRandomPrices.AutoSize = true;
+            this.lblRandomPrices.Location = new System.Drawing.Point(416, 230);
+            this.lblRandomPrices.Name = "lblRandomPrices";
+            this.lblRandomPrices.Size = new System.Drawing.Size(89, 13);
+            this.lblRandomPrices.TabIndex = 66;
+            this.lblRandomPrices.Text = "Prices = 50-200%";
+            // 
+            // trkRandomPrices
+            // 
+            this.trkRandomPrices.LargeChange = 10;
+            this.trkRandomPrices.Location = new System.Drawing.Point(408, 178);
+            this.trkRandomPrices.Maximum = 50;
+            this.trkRandomPrices.Minimum = 10;
+            this.trkRandomPrices.Name = "trkRandomPrices";
+            this.trkRandomPrices.Size = new System.Drawing.Size(104, 45);
+            this.trkRandomPrices.SmallChange = 5;
+            this.trkRandomPrices.TabIndex = 65;
+            this.trkRandomPrices.TickFrequency = 5;
+            this.trkRandomPrices.Value = 10;
+            this.trkRandomPrices.Scroll += new System.EventHandler(this.trkRandomPrices_Scroll);
+            // 
+            // lblRandomEnemyStats
+            // 
+            this.lblRandomEnemyStats.AutoSize = true;
+            this.lblRandomEnemyStats.Location = new System.Drawing.Point(531, 230);
+            this.lblRandomEnemyStats.Name = "lblRandomEnemyStats";
+            this.lblRandomEnemyStats.Size = new System.Drawing.Size(119, 13);
+            this.lblRandomEnemyStats.TabIndex = 68;
+            this.lblRandomEnemyStats.Text = "Enemy Stats = 50-200%";
+            // 
+            // trkRandomStats
+            // 
+            this.trkRandomStats.LargeChange = 10;
+            this.trkRandomStats.Location = new System.Drawing.Point(538, 178);
+            this.trkRandomStats.Maximum = 50;
+            this.trkRandomStats.Minimum = 10;
+            this.trkRandomStats.Name = "trkRandomStats";
+            this.trkRandomStats.Size = new System.Drawing.Size(104, 45);
+            this.trkRandomStats.SmallChange = 5;
+            this.trkRandomStats.TabIndex = 67;
+            this.trkRandomStats.TickFrequency = 5;
+            this.trkRandomStats.Value = 10;
+            this.trkRandomStats.Scroll += new System.EventHandler(this.trkRandomStats_Scroll);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(672, 270);
+            this.ClientSize = new System.Drawing.Size(672, 341);
+            this.Controls.Add(this.lblRandomEnemyStats);
+            this.Controls.Add(this.trkRandomStats);
+            this.Controls.Add(this.lblRandomPrices);
+            this.Controls.Add(this.trkRandomPrices);
             this.Controls.Add(this.chkRandomizeStores);
             this.Controls.Add(this.lblResults);
             this.Controls.Add(this.cmdPrintInfo);
@@ -345,6 +401,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkXPReqAdj)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkXPBoost)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkEncounterRate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkRandomPrices)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkRandomStats)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -377,6 +435,10 @@
         private System.Windows.Forms.Button cmdPrintInfo;
         private System.Windows.Forms.Label lblResults;
         private System.Windows.Forms.CheckBox chkRandomizeStores;
+        private System.Windows.Forms.Label lblRandomPrices;
+        private System.Windows.Forms.TrackBar trkRandomPrices;
+        private System.Windows.Forms.Label lblRandomEnemyStats;
+        private System.Windows.Forms.TrackBar trkRandomStats;
     }
 }
 
