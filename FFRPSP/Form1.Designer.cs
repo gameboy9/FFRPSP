@@ -133,11 +133,11 @@
             // lblXPReqAdj
             // 
             this.lblXPReqAdj.AutoSize = true;
-            this.lblXPReqAdj.Location = new System.Drawing.Point(26, 268);
+            this.lblXPReqAdj.Location = new System.Drawing.Point(28, 268);
             this.lblXPReqAdj.Name = "lblXPReqAdj";
-            this.lblXPReqAdj.Size = new System.Drawing.Size(69, 13);
+            this.lblXPReqAdj.Size = new System.Drawing.Size(66, 13);
             this.lblXPReqAdj.TabIndex = 46;
-            this.lblXPReqAdj.Text = "XP/GP Reqs";
+            this.lblXPReqAdj.Text = "XP/Gil Reqs";
             // 
             // lblXPBoost
             // 
