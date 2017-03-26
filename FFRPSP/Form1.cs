@@ -31,6 +31,7 @@ namespace FFRPSP
             randomizeTreasures(r1);
             randomizeMonsterZonesV2(r1);
             randomizeStores(r1);
+            randomizeMagic(r1);
 
             saveRom();
             lblResults.Text = "Hacking complete!  (" + Path.Combine(Path.GetDirectoryName(txtFileName.Text), Path.GetFileNameWithoutExtension(txtFileName.Text) + "_" + txtSeed.Text + "_" + txtFlags.Text + ".iso)");
@@ -1164,7 +1165,6 @@ namespace FFRPSP
         private void randomizeStores(Random r1)
         {
             // Need to set buy prices for various items... start at 0x2b2f95b
-            // Pete's a jerk
             int[] itemPrices = 
                 { 40, 150, 1500, 150, 500, 10000, 15000, 100000,
                   500, 1500, 50, 500, 50, 50, 1000, 50,
@@ -1196,9 +1196,10 @@ namespace FFRPSP
                 romData[byteToUse + 1] = (byte)(price / 256);
             }
 
-            if (chkRandomizeStores.Checked)
+            if (chkRandomizeItemStores.Checked || chkRandomizeEquipStores.Checked || chkRandomizeMagicStores.Checked)
             {
                 int[] cityStarts = { 0, 28, 60, 100, 124, 156, 172, 204 };
+                // Order:  weapons, armor, items, white 1, white 2, black 1, black 2
                 int[,] stores =
                 {
                     { 1, 1, 1, 1, 1, -1, 1, -1 },
@@ -1226,6 +1227,10 @@ namespace FFRPSP
                 for (int lnI = 0; lnI < 8; lnI++)
                     for (int lnJ = 0; lnJ < 7; lnJ++)
                     {
+                        if ((lnJ == 0 || lnI == 1) && !chkRandomizeEquipStores.Checked) continue;
+                        if (lnJ == 2 && !chkRandomizeItemStores.Checked) continue;
+                        if (lnJ >= 3 && !chkRandomizeMagicStores.Checked) continue;
+
                         List<int> storeStack = new List<int>();
                         for (int lnK = 0; lnK < storeSizes[lnJ, lnI]; lnK++)
                         {
@@ -1235,6 +1240,74 @@ namespace FFRPSP
                             if (storeStack.IndexOf(romData[byteToUse]) != -1) lnK--;
                             else storeStack.Add(romData[byteToUse]);
                         }
+                    }
+            }
+
+            if (chkShuffleMagicStores.Checked)
+            {
+                int[] whiteMagicStores = { 0x2b1a1f0, 0x2b1a1f1, 0x2b1a1f2, 0x2b1a1f3, 0x2b1a210, 0x2b1a211, 0x2b1a212, 0x2b1a213,
+                                           0x2b1a230, 0x2b1a231, 0x2b1a232, 0x2b1a233, 0x2b1a234, 0x2b1a235, 0x2b1a236, 0x2b1a237,
+                                           0x2b1a250, 0x2b1a251, 0x2b1a252, 0x2b1a253, 0x2b1a270, 0x2b1a271, 0x2b1a272, 0x2b1a273,
+                                           0x2b1a280, 0x2b1a281, 0x2b1a298, 0x2b1a299, 0x2b1a29c, 0x2b1a29d, 0x2b1a29e, 0x2b1a2a8 };
+                int[] blackMagicStores = { 0x2b1a1f4, 0x2b1a1f5, 0x2b1a1f6, 0x2b1a1f7, 0x2b1a214, 0x2b1a215, 0x2b1a216, 0x2b1a217,
+                                           0x2b1a238, 0x2b1a239, 0x2b1a23a, 0x2b1a23b, 0x2b1a23c, 0x2b1a23d, 0x2b1a23e, 0x2b1a23f,
+                                           0x2b1a254, 0x2b1a255, 0x2b1a256, 0x2b1a257, 0x2b1a274, 0x2b1a275, 0x2b1a276, 0x2b1a277,
+                                           0x2b1a284, 0x2b1a285, 0x2b1a2a0, 0x2b1a2a1, 0x2b1a2a4, 0x2b1a2a5, 0x2b1a2a6, 0x2b1a2ac };
+
+                for (int lnI = 0; lnI < 32 * 40; lnI++)
+                {
+                    int first = r1.Next() % 32;
+                    int second = r1.Next() % 32;
+
+                    byte hold = romData[whiteMagicStores[first]];
+                    romData[whiteMagicStores[first]] = romData[whiteMagicStores[second]];
+                    romData[whiteMagicStores[second]] = hold;
+
+                    first = r1.Next() % 32;
+                    second = r1.Next() % 32;
+
+                    hold = romData[blackMagicStores[first]];
+                    romData[blackMagicStores[first]] = romData[blackMagicStores[second]];
+                    romData[blackMagicStores[second]] = hold;
+                }
+            }
+        }
+
+        private void randomizeMagic(Random r1)
+        {
+            if (chkRandomizeMagic.Checked)
+            {
+                // We'll want to shuffle not only the magic attributes, but the text as well.  We'll need several holding variables...
+                byte[] textHold = { 0, 0 };
+                byte[] magicHold = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+                // Shuffle white magic, then black magic.
+                int byteToUseText = 0x2b30bc8;
+                int byteToUseMagic = 0x2b30d6e;
+
+                for (int lnK = 0; lnK < 2; lnK++)
+                    for (int lnI = 0; lnI < 32 * 40; lnI++)
+                    {
+                        int firstMagic = r1.Next() % 32 + (32 * lnK);
+                        int secondMagic = r1.Next() % 32 + (32 * lnK);
+
+                        textHold[0] = romData[byteToUseText + (firstMagic * 4) + 0];
+                        textHold[1] = romData[byteToUseText + (firstMagic * 4) + 2];
+
+                        for (int lnJ = 0; lnJ < 9; lnJ++)
+                            magicHold[lnJ] = romData[byteToUseMagic + (firstMagic * 14) + lnJ];
+
+                        romData[byteToUseText + (firstMagic * 4) + 0] = romData[byteToUseText + (secondMagic * 4) + 0];
+                        romData[byteToUseText + (firstMagic * 4) + 2] = romData[byteToUseText + (secondMagic * 4) + 2];
+
+                        for (int lnJ = 0; lnJ < 9; lnJ++)
+                            romData[byteToUseMagic + (firstMagic * 14) + lnJ] = romData[byteToUseMagic + (secondMagic * 14) + lnJ];
+
+                        romData[byteToUseText + (secondMagic * 4) + 0] = textHold[0];
+                        romData[byteToUseText + (secondMagic * 4) + 2] = textHold[1];
+
+                        for (int lnJ = 0; lnJ < 9; lnJ++)
+                            romData[byteToUseMagic + (secondMagic * 14) + lnJ] = magicHold[lnJ];
                     }
             }
         }
@@ -1290,29 +1363,29 @@ namespace FFRPSP
 
         private void trkXPReqAdj_Scroll(object sender, EventArgs e)
         {
-            lblXPReqAdj.Text = "XP Req Adjustment = " + (trkXPReqAdj.Value * 5).ToString() + "%";
+            lblXPReqAdj.Text = "XP Req Adjustment\r\n" + (trkXPReqAdj.Value * 5).ToString() + "%";
         }
 
         private void trkXPBoost_Scroll(object sender, EventArgs e)
         {
-            lblXPBoost.Text = "Monster XP Boost = +" + (trkXPBoost.Value * 5).ToString();
+            lblXPBoost.Text = "Monster XP Boost\r\n+" + (trkXPBoost.Value * 5).ToString();
         }
 
         private void trkEncounterRate_Scroll(object sender, EventArgs e)
         {
-            lblEncounterRate.Text = "Encounter Rate = " + (trkEncounterRate.Value * 10).ToString() + "%";
+            lblEncounterRate.Text = "Encounter Rate\r\n" + (trkEncounterRate.Value * 10).ToString() + "%";
         }
 
         private void trkRandomPrices_Scroll(object sender, EventArgs e)
         {
             int minimum = 10000 / trkRandomPrices.Value / 10;
-            lblRandomPrices.Text = minimum.ToString() + "-" + (trkRandomPrices.Value * 10).ToString() + "%";
+            lblRandomPrices.Text = "Prices\r\n" + minimum.ToString() + "-" + (trkRandomPrices.Value * 10).ToString() + "%";
         }
 
         private void trkRandomStats_Scroll(object sender, EventArgs e)
         {
             int minimum = 10000 / trkRandomStats.Value / 10;
-            lblRandomPrices.Text = minimum.ToString() + "-" + (trkRandomPrices.Value * 10).ToString() + "%";
+            lblRandomEnemyStats.Text = "Enemy Stats\r\n" + minimum.ToString() + "-" + (trkRandomPrices.Value * 10).ToString() + "%";
         }
 
         private void cmdPrintInfo_Click(object sender, EventArgs e)
@@ -1328,12 +1401,16 @@ namespace FFRPSP
                 return;
 
             string flags = "";
-            int number = (chkRandomizeMonsterZones.Checked ? 1 : 0) + (chkRandomizeSpecialMonsters.Checked ? 2 : 0) + (chkRandomizeMonsterPatterns.Checked ? 4 : 0) + 
-                (chkRandomizeEquipment.Checked ? 8 : 0) + (chkRandomizeTreasures.Checked ? 16 : 0) + (chkRandomizeStores.Checked ? 32 : 0);
+            int number = (chkRandomizeMonsterZones.Checked ? 1 : 0) + (chkRandomizeSpecialMonsters.Checked ? 2 : 0) + (chkRandomizeMonsterPatterns.Checked ? 4 : 0) +
+                (chkRandomizeEquipment.Checked ? 8 : 0) + (chkRandomizeTreasures.Checked ? 16 : 0) + (chkRandomizeMagic.Checked ? 32 : 0);
+            flags += convertIntToChar(number);
+            number = (chkRandomizeItemStores.Checked ? 1 : 0) + (chkRandomizeEquipStores.Checked ? 2 : 0) + (chkRandomizeMagicStores.Checked ? 4 : 0) + (chkShuffleMagicStores.Checked ? 8 : 0);
             flags += convertIntToChar(number);
             flags += convertIntToChar(trkXPReqAdj.Value);
             flags += convertIntToChar(trkXPBoost.Value);
             flags += convertIntToChar(trkEncounterRate.Value);
+            flags += convertIntToChar(trkRandomPrices.Value);
+            flags += convertIntToChar(trkRandomStats.Value);
 
             txtFlags.Text = flags;
         }
@@ -1347,13 +1424,23 @@ namespace FFRPSP
             chkRandomizeMonsterPatterns.Checked = (number % 8 >= 4);
             chkRandomizeEquipment.Checked = (number % 16 >= 8);
             chkRandomizeTreasures.Checked = (number % 32 >= 16);
-            chkRandomizeStores.Checked = (number % 64 >= 32);
-            trkXPReqAdj.Value = convertChartoInt(Convert.ToChar(flags.Substring(1, 1)));
+            chkRandomizeMagic.Checked = (number % 64 >= 32);
+
+            number = convertChartoInt(Convert.ToChar(flags.Substring(1, 1)));
+            chkRandomizeItemStores.Checked = (number % 2 == 1);
+            chkRandomizeEquipStores.Checked = (number % 4 >= 2);
+            chkRandomizeMagicStores.Checked = (number % 8 >= 4);
+            chkShuffleMagicStores.Checked = (number % 16 >= 8);
+            trkXPReqAdj.Value = convertChartoInt(Convert.ToChar(flags.Substring(2, 1)));
             trkXPReqAdj_Scroll(null, null);
-            trkXPBoost.Value = convertChartoInt(Convert.ToChar(flags.Substring(2, 1)));
+            trkXPBoost.Value = convertChartoInt(Convert.ToChar(flags.Substring(3, 1)));
             trkXPBoost_Scroll(null, null);
-            trkEncounterRate.Value = convertChartoInt(Convert.ToChar(flags.Substring(3, 1)));
+            trkEncounterRate.Value = convertChartoInt(Convert.ToChar(flags.Substring(4, 1)));
             trkEncounterRate_Scroll(null, null);
+            trkRandomPrices.Value = convertChartoInt(Convert.ToChar(flags.Substring(5, 1)));
+            trkRandomPrices_Scroll(null, null);
+            trkRandomStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(6, 1)));
+            trkRandomStats_Scroll(null, null);
         }
 
         private string convertIntToChar(int number)
@@ -1412,6 +1499,28 @@ namespace FFRPSP
             {
                 writer.WriteLine(txtFlags.Text);
                 writer.WriteLine(txtFileName.Text);
+            }
+        }
+
+        private void chkShuffleMagicStores_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!loading)
+            {
+                loading = true;
+                chkRandomizeMagicStores.Checked = false;
+                loading = false;
+                determineFlags(sender, e);
+            }
+        }
+
+        private void chkRandomizeMagicStores_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!loading)
+            {
+                loading = true;
+                chkShuffleMagicStores.Checked = false;
+                loading = false;
+                determineFlags(sender, e);
             }
         }
     }
