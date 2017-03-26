@@ -407,6 +407,7 @@ namespace FFRPSP
                     price = (price < 4 ? 4 : price);
                     int buyPrice = (int)price;
                     buyPrice = buyPrice * trkXPReqAdj.Value * 5 / 100;
+                    buyPrice = ScaleValue(buyPrice, trkRandomPrices.Value / 10, 1.0, r1);
 
                     int sellPrice = r1.Next() % buyPrice;
                     romData[byteToUse + 20] = (byte)(buyPrice % 256);
@@ -476,6 +477,7 @@ namespace FFRPSP
                     price = (price < 4 ? 4 : price);
                     int buyPrice = (int)price;
                     buyPrice = buyPrice * trkXPReqAdj.Value * 5 / 100;
+                    buyPrice = ScaleValue(buyPrice, trkRandomPrices.Value / 10, 1.0, r1);
 
                     int sellPrice = r1.Next() % buyPrice;
                     romData[byteToUse + 20] = (byte)(buyPrice % 256);
@@ -1190,6 +1192,7 @@ namespace FFRPSP
             {
                 int byteToUse = (0x2b30d6e + (14 * lnI) + 12);
                 int price = (romData[byteToUse + 1] * 256) + romData[byteToUse];
+                price = price * trkXPReqAdj.Value * 5 / 100;
                 price = ScaleValue(price, trkRandomPrices.Value / 10, 1.0, r1);
                 price = (price > 65500 ? 65500 : price);
                 romData[byteToUse] = (byte)(price % 256);
