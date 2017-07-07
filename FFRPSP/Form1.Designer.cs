@@ -165,7 +165,6 @@
             this.trkEncounterRate.LargeChange = 10;
             this.trkEncounterRate.Location = new System.Drawing.Point(258, 216);
             this.trkEncounterRate.Maximum = 40;
-            this.trkEncounterRate.Minimum = 2;
             this.trkEncounterRate.Name = "trkEncounterRate";
             this.trkEncounterRate.Size = new System.Drawing.Size(104, 45);
             this.trkEncounterRate.SmallChange = 5;
