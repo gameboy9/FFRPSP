@@ -1002,156 +1002,161 @@ namespace FFRPSP
 
         private void randomizeTreasures(Random r1)
         {
-            for (int lnI = 0x2b227d8; lnI < 0x2b22c0a; lnI += 0x04)
+            if (chkRandomizeTreasures.Checked)
             {
-                // Skip key items for now.  These key items also set triggers, and moving those around STOPS setting those triggers.
-                if (romData[lnI + 3] == 0x80 && romData[lnI + 0] == 0x00)
+                for (int lnI = 0x2b227d8; lnI < 0x2b22c0a; lnI += 0x04)
                 {
-                    continue;
-                }
-                // Else, 50% common item, then 50% chance gold, then 50% rare item, then finally a weapon/armor
-                if (r1.Next() % 2 == 1)
-                {
-                    int itemChoice = r1.Next() % 31;
-                    int finalItem = 0;
-                    switch (itemChoice)
+                    // Skip key items for now.  These key items also set triggers, and moving those around STOPS setting those triggers.
+                    if (romData[lnI + 3] == 0x80 && romData[lnI + 0] == 0x00)
                     {
-                        case 0:
-                            finalItem = 1; break;
-                        case 1:
-                            finalItem = 2; break;
-                        case 2:
-                            finalItem = 4; break;
-                        case 3:
-                            finalItem = 5; break;
-                        case 4:
-                            finalItem = 7; break;
-                        case 5:
-                            finalItem = 9; break;
-                        case 6:
-                            finalItem = 10; break;
-                        case 7:
-                            finalItem = 11; break;
-                        case 8:
-                            finalItem = 12; break;
-                        case 9:
-                            finalItem = 13; break;
-                        case 10:
-                            finalItem = 14; break;
-                        case 11:
-                            finalItem = 15; break;
-                        case 12:
-                            finalItem = 16; break;
-                        case 13:
-                            finalItem = 17; break;
-                        case 14:
-                            finalItem = 19; break;
-                        case 15:
-                            finalItem = 20; break;
-                        case 16:
-                            finalItem = 21; break;
-                        case 17:
-                            finalItem = 22; break;
-                        case 18:
-                            finalItem = 23; break;
-                        case 19:
-                            finalItem = 24; break;
-                        case 20:
-                            finalItem = 25; break;
-                        case 21:
-                            finalItem = 26; break;
-                        case 22:
-                            finalItem = 27; break;
-                        case 23:
-                            finalItem = 28; break;
-                        case 24:
-                            finalItem = 29; break;
-                        case 25:
-                            finalItem = 30; break;
-                        case 26:
-                            finalItem = 31; break;
-                        case 27:
-                            finalItem = 32; break;
-                        case 28:
-                            finalItem = 33; break;
-                        case 29:
-                            finalItem = 34; break;
-                        case 30:
-                            finalItem = 35; break;
-                        default:
-                            finalItem = 0; break;
+                        continue;
                     }
-                    romData[lnI + 3] = 0x80;
-                    romData[lnI + 0] = 0x01;
-                    romData[lnI + 1] = (byte)finalItem;
-                    romData[lnI + 2] = 0x00;
-                }
-                else if (r1.Next() % 2 == 1)
-                {
-                    romData[lnI + 3] = 0x00;
-                    int gold = inverted_power_curve(1, 100000, .1, r1);
-                    // Limit to two significant digits
-                    if (gold > 10000)
-                        gold = gold / 1000 * 1000;
-                    else if (gold > 1000)
-                        gold = gold / 100 * 100;
-                    else if (gold > 100)
-                        gold = gold / 10 * 10;
-                    romData[lnI + 0] = (byte)(gold % 256);
-                    romData[lnI + 1] = (byte)((gold / 256) % 256);
-                    romData[lnI + 2] = (byte)(gold / 65536);
-                } else if (r1.Next() % 2 == 1)
-                {
-                    int itemChoice = r1.Next() % 12;
-                    int finalItem = 0;
-                    switch (itemChoice)
+                    // Else, 50% common item, then 50% chance gold, then 50% rare item, then finally a weapon/armor
+                    if (r1.Next() % 2 == 1)
                     {
-                        case 0:
-                            finalItem = 3; break;
-                        case 1:
-                            finalItem = 6; break;
-                        case 2:
-                            finalItem = 8; break;
-                        case 3:
-                            finalItem = 18; break;
-                        case 4:
-                            finalItem = 36; break;
-                        case 5:
-                            finalItem = 37; break;
-                        case 6:
-                            finalItem = 38; break;
-                        case 7:
-                            finalItem = 39; break;
-                        case 8:
-                            finalItem = 40; break;
-                        case 9:
-                            finalItem = 41; break;
-                        case 10:
-                            finalItem = 42; break;
-                        case 11:
-                            finalItem = 43; break;
-                        default:
-                            finalItem = 0; break;
+                        int itemChoice = r1.Next() % 31;
+                        int finalItem = 0;
+                        switch (itemChoice)
+                        {
+                            case 0:
+                                finalItem = 1; break;
+                            case 1:
+                                finalItem = 2; break;
+                            case 2:
+                                finalItem = 4; break;
+                            case 3:
+                                finalItem = 5; break;
+                            case 4:
+                                finalItem = 7; break;
+                            case 5:
+                                finalItem = 9; break;
+                            case 6:
+                                finalItem = 10; break;
+                            case 7:
+                                finalItem = 11; break;
+                            case 8:
+                                finalItem = 12; break;
+                            case 9:
+                                finalItem = 13; break;
+                            case 10:
+                                finalItem = 14; break;
+                            case 11:
+                                finalItem = 15; break;
+                            case 12:
+                                finalItem = 16; break;
+                            case 13:
+                                finalItem = 17; break;
+                            case 14:
+                                finalItem = 19; break;
+                            case 15:
+                                finalItem = 20; break;
+                            case 16:
+                                finalItem = 21; break;
+                            case 17:
+                                finalItem = 22; break;
+                            case 18:
+                                finalItem = 23; break;
+                            case 19:
+                                finalItem = 24; break;
+                            case 20:
+                                finalItem = 25; break;
+                            case 21:
+                                finalItem = 26; break;
+                            case 22:
+                                finalItem = 27; break;
+                            case 23:
+                                finalItem = 28; break;
+                            case 24:
+                                finalItem = 29; break;
+                            case 25:
+                                finalItem = 30; break;
+                            case 26:
+                                finalItem = 31; break;
+                            case 27:
+                                finalItem = 32; break;
+                            case 28:
+                                finalItem = 33; break;
+                            case 29:
+                                finalItem = 34; break;
+                            case 30:
+                                finalItem = 35; break;
+                            default:
+                                finalItem = 0; break;
+                        }
+                        romData[lnI + 3] = 0x80;
+                        romData[lnI + 0] = 0x01;
+                        romData[lnI + 1] = (byte)finalItem;
+                        romData[lnI + 2] = 0x00;
                     }
+                    else if (r1.Next() % 2 == 1)
+                    {
+                        romData[lnI + 3] = 0x00;
+                        int gold = inverted_power_curve(1, 100000, .1, r1);
+                        // Limit to two significant digits
+                        if (gold > 10000)
+                            gold = gold / 1000 * 1000;
+                        else if (gold > 1000)
+                            gold = gold / 100 * 100;
+                        else if (gold > 100)
+                            gold = gold / 10 * 10;
+                        romData[lnI + 0] = (byte)(gold % 256);
+                        romData[lnI + 1] = (byte)((gold / 256) % 256);
+                        romData[lnI + 2] = (byte)(gold / 65536);
+                    }
+                    else if (r1.Next() % 2 == 1)
+                    {
+                        int itemChoice = r1.Next() % 12;
+                        int finalItem = 0;
+                        switch (itemChoice)
+                        {
+                            case 0:
+                                finalItem = 3; break;
+                            case 1:
+                                finalItem = 6; break;
+                            case 2:
+                                finalItem = 8; break;
+                            case 3:
+                                finalItem = 18; break;
+                            case 4:
+                                finalItem = 36; break;
+                            case 5:
+                                finalItem = 37; break;
+                            case 6:
+                                finalItem = 38; break;
+                            case 7:
+                                finalItem = 39; break;
+                            case 8:
+                                finalItem = 40; break;
+                            case 9:
+                                finalItem = 41; break;
+                            case 10:
+                                finalItem = 42; break;
+                            case 11:
+                                finalItem = 43; break;
+                            default:
+                                finalItem = 0; break;
+                        }
 
-                    romData[lnI + 3] = 0x80;
-                    romData[lnI + 2] = 0x00;
-                    romData[lnI + 1] = (byte)finalItem;
-                    romData[lnI + 0] = 0x01;
+                        romData[lnI + 3] = 0x80;
+                        romData[lnI + 2] = 0x00;
+                        romData[lnI + 1] = (byte)finalItem;
+                        romData[lnI + 0] = 0x01;
 
-                } else
-                {
-                    int itemBank = (r1.Next() % 2) + 2;
-                    int finalItem = 0;
-                    if (itemBank == 2)
-                        finalItem = r1.Next() % 0x44;
+                    }
                     else
-                        finalItem = r1.Next() % 0x4c;
+                    {
+                        int itemBank = (r1.Next() % 2) + 2;
+                        int finalItem = 0;
+                        if (itemBank == 2)
+                            finalItem = r1.Next() % 0x44;
+                        else
+                            finalItem = r1.Next() % 0x4c;
 
-                    romData[lnI + 0] = (byte)itemBank;
-                    romData[lnI + 1] = (byte)finalItem;
-                    romData[lnI + 2] = 0x00;
-                    romData[lnI + 3] = 0x80;
+                        romData[lnI + 0] = (byte)itemBank;
+                        romData[lnI + 1] = (byte)finalItem;
+                        romData[lnI + 2] = 0x00;
+                        romData[lnI + 3] = 0x80;
+                    }
                 }
             }
         }
