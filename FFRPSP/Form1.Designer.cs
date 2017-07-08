@@ -61,6 +61,9 @@
             this.chkRandomizeMagicStores = new System.Windows.Forms.CheckBox();
             this.chkRandomizeEquipStores = new System.Windows.Forms.CheckBox();
             this.chkShuffleMagicStores = new System.Windows.Forms.CheckBox();
+            this.cmdStdShortcut = new System.Windows.Forms.Button();
+            this.btnQuickShortcut = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trkXPReqAdj)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkXPBoost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkEncounterRate)).BeginInit();
@@ -410,11 +413,43 @@
             this.chkShuffleMagicStores.UseVisualStyleBackColor = true;
             this.chkShuffleMagicStores.CheckedChanged += new System.EventHandler(this.chkShuffleMagicStores_CheckedChanged);
             // 
+            // cmdStdShortcut
+            // 
+            this.cmdStdShortcut.Location = new System.Drawing.Point(466, 296);
+            this.cmdStdShortcut.Name = "cmdStdShortcut";
+            this.cmdStdShortcut.Size = new System.Drawing.Size(64, 23);
+            this.cmdStdShortcut.TabIndex = 73;
+            this.cmdStdShortcut.Text = "Standard";
+            this.cmdStdShortcut.UseVisualStyleBackColor = true;
+            this.cmdStdShortcut.Click += new System.EventHandler(this.cmdStdShortcut_Click);
+            // 
+            // btnQuickShortcut
+            // 
+            this.btnQuickShortcut.Location = new System.Drawing.Point(536, 296);
+            this.btnQuickShortcut.Name = "btnQuickShortcut";
+            this.btnQuickShortcut.Size = new System.Drawing.Size(64, 23);
+            this.btnQuickShortcut.TabIndex = 74;
+            this.btnQuickShortcut.Text = "Quick";
+            this.btnQuickShortcut.UseVisualStyleBackColor = true;
+            this.btnQuickShortcut.Click += new System.EventHandler(this.btnQuickShortcut_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(405, 301);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(55, 13);
+            this.label3.TabIndex = 75;
+            this.label3.Text = "Shortcuts:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(615, 381);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnQuickShortcut);
+            this.Controls.Add(this.cmdStdShortcut);
             this.Controls.Add(this.chkShuffleMagicStores);
             this.Controls.Add(this.chkRandomizeEquipStores);
             this.Controls.Add(this.chkRandomizeMagicStores);
@@ -497,6 +532,9 @@
         private System.Windows.Forms.CheckBox chkRandomizeMagicStores;
         private System.Windows.Forms.CheckBox chkRandomizeEquipStores;
         private System.Windows.Forms.CheckBox chkShuffleMagicStores;
+        private System.Windows.Forms.Button cmdStdShortcut;
+        private System.Windows.Forms.Button btnQuickShortcut;
+        private System.Windows.Forms.Label label3;
     }
 }
 

@@ -1285,6 +1285,8 @@ namespace FFRPSP
         {
             if (chkRandomizeMagic.Checked)
             {
+                // Need to set up a "magic array" in order to resolve the field magic bug.
+                byte[] magicNumbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64 };
                 // We'll want to shuffle not only the magic attributes, but the text as well.  We'll need several holding variables...
                 byte[] textHold = { 0, 0 };
                 byte[] magicHold = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -1298,6 +1300,12 @@ namespace FFRPSP
                     {
                         int firstMagic = r1.Next() % 32 + (32 * lnK);
                         int secondMagic = r1.Next() % 32 + (32 * lnK);
+
+                        byte magicHoldInt = magicNumbers[firstMagic];
+                        magicNumbers[firstMagic] = magicNumbers[secondMagic];
+                        magicNumbers[secondMagic] = magicHoldInt;
+
+                        ////////////////////////////////////////////////////////////
 
                         textHold[0] = romData[byteToUseText + (firstMagic * 4) + 0];
                         textHold[1] = romData[byteToUseText + (firstMagic * 4) + 2];
@@ -1317,6 +1325,78 @@ namespace FFRPSP
                         for (int lnJ = 0; lnJ < 9; lnJ++)
                             romData[byteToUseMagic + (secondMagic * 14) + lnJ] = magicHold[lnJ];
                     }
+
+                for (int lnI = 0; lnI < magicNumbers.Length; lnI++)
+                {
+                    int booster = -99;
+                    switch (magicNumbers[lnI])
+                    {
+                        case 1:
+                            // For correct healing.  (all extra lines are for that purpose)
+                            romData[0x2aae1c4] = (byte)(lnI + 1);
+                            booster = 11;
+                            break;
+                        case 9:
+                            romData[0x2aae1ac] = (byte)(lnI + 1);
+                            booster = 10;
+                            break;
+                        case 17:
+                            romData[0x2aae194] = (byte)(lnI + 1);
+                            booster = 9;
+                            break;
+                        case 25:
+                            booster = 8;
+                            break;
+                        case 12:
+                            romData[0x2aae1b8] = (byte)(lnI + 1);
+                            booster = 7;
+                            break;
+                        case 20:
+                            romData[0x2aae1a0] = (byte)(lnI + 1);
+                            booster = 6;
+                            break;
+                        case 28:
+                            romData[0x2aae188] = (byte)(lnI + 1);
+                            booster = 5;
+                            break;
+                        case 18:
+                            booster = 4;
+                            break;
+                        case 29:
+                            booster = 3;
+                            break;
+                        case 13:
+                            booster = 2;
+                            break;
+                        case 21:
+                            booster = 1;
+                            break;
+                        case 22:
+                            booster = 0;
+                            break;
+                        case 51:
+                            booster = -1;
+                            break;
+                    }
+
+                    if (booster == -1)
+                    {
+                        romData[0x2a9eef4] = (byte)(lnI + 1);
+                        romData[0x2aa0040] = (byte)(lnI + 1);
+                        romData[0x2aa0320] = (byte)(lnI + 1);
+                        romData[0x2aaf648] = (byte)(lnI + 1);
+                    }
+                    if (booster == 0)
+                    {
+                        romData[0x2a9eee8] = (byte)(lnI + 1);
+                    }
+                    if (booster >= 0)
+                    {
+                        romData[0x2aa0054 + (booster * 12)] = (byte)(lnI + 1);
+                        romData[0x2aa0338 + (booster * 12)] = (byte)(lnI + 1);
+                        romData[0x2aaf654 + (booster * 12)] = (byte)(lnI + 1);
+                    }
+                }
             }
         }
 
@@ -1530,6 +1610,54 @@ namespace FFRPSP
                 loading = false;
                 determineFlags(sender, e);
             }
+        }
+
+        private void cmdStdShortcut_Click(object sender, EventArgs e)
+        {
+            chkRandomizeMonsterZones.Checked = true;
+            chkRandomizeMonsterPatterns.Checked = true;
+            chkRandomizeSpecialMonsters.Checked = false;
+            chkRandomizeTreasures.Checked = true;
+            chkRandomizeEquipment.Checked = false;
+            chkRandomizeMagic.Checked = true;
+            chkRandomizeEquipStores.Checked = true;
+            chkRandomizeItemStores.Checked = true;
+            chkRandomizeMagicStores.Checked = false;
+            chkShuffleMagicStores.Checked = true;
+            trkEncounterRate.Value = 10;
+            trkXPReqAdj.Value = 10;
+            trkXPBoost.Value = 20;
+            trkRandomPrices.Value = 20;
+            trkRandomStats.Value = 20;
+            trkEncounterRate_Scroll(null, null);
+            trkXPReqAdj_Scroll(null, null);
+            trkXPBoost_Scroll(null, null);
+            trkRandomPrices_Scroll(null, null);
+            trkRandomStats_Scroll(null, null);
+        }
+
+        private void btnQuickShortcut_Click(object sender, EventArgs e)
+        {
+            chkRandomizeMonsterZones.Checked = true;
+            chkRandomizeMonsterPatterns.Checked = true;
+            chkRandomizeSpecialMonsters.Checked = false;
+            chkRandomizeTreasures.Checked = true;
+            chkRandomizeEquipment.Checked = false;
+            chkRandomizeMagic.Checked = true;
+            chkRandomizeEquipStores.Checked = true;
+            chkRandomizeItemStores.Checked = true;
+            chkRandomizeMagicStores.Checked = false;
+            chkShuffleMagicStores.Checked = true;
+            trkEncounterRate.Value = 5;
+            trkXPReqAdj.Value = 5;
+            trkXPBoost.Value = 20;
+            trkRandomPrices.Value = 20;
+            trkRandomStats.Value = 20;
+            trkEncounterRate_Scroll(null, null);
+            trkXPReqAdj_Scroll(null, null);
+            trkXPBoost_Scroll(null, null);
+            trkRandomPrices_Scroll(null, null);
+            trkRandomStats_Scroll(null, null);
         }
     }
 }
