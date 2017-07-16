@@ -30,8 +30,8 @@ namespace FFRPSP
             randomizeMonsterPatterns(r1);
             randomizeTreasures(r1);
             randomizeMonsterZonesV2(r1);
-            randomizeStores(r1);
             randomizeMagic(r1);
+            randomizeStores(r1);
 
             saveRom();
             lblResults.Text = "Hacking complete!  (" + Path.Combine(Path.GetDirectoryName(txtFileName.Text), Path.GetFileNameWithoutExtension(txtFileName.Text) + "_" + txtSeed.Text + "_" + txtFlags.Text + ".iso)");
@@ -362,63 +362,63 @@ namespace FFRPSP
                     romData[byteToUse + 2] = (byte)(equip1);
                     romData[byteToUse + 3] = (byte)(equip2);
 
-                    romData[byteToUse + 4] = (byte)inverted_power_curve(2, 150, .25, r1);
-                    romData[byteToUse + 5] = (byte)inverted_power_curve(2, 150, .25, r1);
-                    if (r1.Next() % 10 == 0)
-                    {
-                        romData[byteToUse + 6] = (byte)inverted_power_curve(1, 50, .2, r1);
-                        if (r1.Next() % 5 == 0)
-                            romData[byteToUse + 6] = (byte)(256 - (romData[byteToUse + 6]));
-                    }
-                    else
-                        romData[byteToUse + 6] = 0;
+                    //romData[byteToUse + 4] = (byte)inverted_power_curve(2, 150, .25, r1);
+                    //romData[byteToUse + 5] = (byte)inverted_power_curve(2, 150, .25, r1);
+                    //if (r1.Next() % 10 == 0)
+                    //{
+                    //    romData[byteToUse + 6] = (byte)inverted_power_curve(1, 50, .2, r1);
+                    //    if (r1.Next() % 5 == 0)
+                    //        romData[byteToUse + 6] = (byte)(256 - (romData[byteToUse + 6]));
+                    //}
+                    //else
+                    //    romData[byteToUse + 6] = 0;
 
-                    if (r1.Next() % 4 == 0)
-                        romData[byteToUse + 7] = (byte)(r1.Next() % 0x41);
-                    else
-                        romData[byteToUse + 7] = 0;
-                    if (romData[byteToUse + 7] == 0x16 || romData[byteToUse + 7] == 0x33)
-                        romData[byteToUse + 7] = 0;
+                    //if (r1.Next() % 4 == 0)
+                    //    romData[byteToUse + 7] = (byte)(r1.Next() % 0x41);
+                    //else
+                    //    romData[byteToUse + 7] = 0;
+                    //if (romData[byteToUse + 7] == 0x16 || romData[byteToUse + 7] == 0x33)
+                    //    romData[byteToUse + 7] = 0;
 
-                    for (int lnJ = 11; lnJ <= 14; lnJ++)
-                    {
-                        if (r1.Next() % 9 == 0)
-                        {
-                            romData[byteToUse + lnJ] = (byte)inverted_power_curve(1, 30, .25, r1);
-                            if (r1.Next() % 5 == 0)
-                                romData[byteToUse + lnJ] = (byte)(256 - (romData[byteToUse + lnJ]));
-                        }
-                        else
-                            romData[byteToUse + lnJ] = 0;
-                    }
-                    romData[byteToUse + 15] = (byte)inverted_power_curve(1, 70, .5, r1);
-                    int spellPrice = (romData[byteToUse + 7] > 32 ? romData[byteToUse + 7] - 32 : romData[byteToUse + 7]);
-                    double price = Math.Pow(romData[byteToUse + 4], 1.9) +
-                                   Math.Pow(romData[byteToUse + 5], 1.85) +
-                                   Math.Pow((romData[byteToUse + 6] > 128 ? 0 : romData[byteToUse + 6]), 2.2) +
-                                   Math.Pow(spellPrice % 32, 2.7) +
-                                   Math.Pow((romData[byteToUse + 11] > 128 ? 0 : romData[byteToUse + 11]), 2.7) +
-                                   Math.Pow((romData[byteToUse + 12] > 128 ? 0 : romData[byteToUse + 12]), 2.7) +
-                                   Math.Pow((romData[byteToUse + 13] > 128 ? 0 : romData[byteToUse + 13]), 2.7) +
-                                   Math.Pow((romData[byteToUse + 14] > 128 ? 0 : romData[byteToUse + 14]), 2.7) +
-                                   Math.Pow((romData[byteToUse + 15] > 128 ? 0 : romData[byteToUse + 15]), 2.2);
-                    price = Math.Ceiling(price);
-                    price = (price > 99999 ? 99999 : price);
-                    price = (price < 4 ? 4 : price);
-                    int buyPrice = (int)price;
-                    buyPrice = buyPrice * trkXPReqAdj.Value * 5 / 100;
-                    buyPrice = ScaleValue(buyPrice, trkRandomPrices.Value / 10, 1.0, r1);
+                    //for (int lnJ = 11; lnJ <= 14; lnJ++)
+                    //{
+                    //    if (r1.Next() % 9 == 0)
+                    //    {
+                    //        romData[byteToUse + lnJ] = (byte)inverted_power_curve(1, 30, .25, r1);
+                    //        if (r1.Next() % 5 == 0)
+                    //            romData[byteToUse + lnJ] = (byte)(256 - (romData[byteToUse + lnJ]));
+                    //    }
+                    //    else
+                    //        romData[byteToUse + lnJ] = 0;
+                    //}
+                    //romData[byteToUse + 15] = (byte)inverted_power_curve(1, 70, .5, r1);
+                    //int spellPrice = (romData[byteToUse + 7] > 32 ? romData[byteToUse + 7] - 32 : romData[byteToUse + 7]);
+                    //double price = Math.Pow(romData[byteToUse + 4], 1.9) +
+                    //               Math.Pow(romData[byteToUse + 5], 1.85) +
+                    //               Math.Pow((romData[byteToUse + 6] > 128 ? 0 : romData[byteToUse + 6]), 2.2) +
+                    //               Math.Pow(spellPrice % 32, 2.7) +
+                    //               Math.Pow((romData[byteToUse + 11] > 128 ? 0 : romData[byteToUse + 11]), 2.7) +
+                    //               Math.Pow((romData[byteToUse + 12] > 128 ? 0 : romData[byteToUse + 12]), 2.7) +
+                    //               Math.Pow((romData[byteToUse + 13] > 128 ? 0 : romData[byteToUse + 13]), 2.7) +
+                    //               Math.Pow((romData[byteToUse + 14] > 128 ? 0 : romData[byteToUse + 14]), 2.7) +
+                    //               Math.Pow((romData[byteToUse + 15] > 128 ? 0 : romData[byteToUse + 15]), 2.2);
+                    //price = Math.Ceiling(price);
+                    //price = (price > 99999 ? 99999 : price);
+                    //price = (price < 4 ? 4 : price);
+                    //int buyPrice = (int)price;
+                    //buyPrice = buyPrice * trkXPReqAdj.Value * 5 / 100;
+                    //buyPrice = ScaleValue(buyPrice, trkRandomPrices.Value / 10, 1.0, r1);
 
-                    int sellPrice = r1.Next() % buyPrice;
-                    romData[byteToUse + 20] = (byte)(buyPrice % 256);
-                    romData[byteToUse + 21] = (byte)((buyPrice / 256) % 256);
-                    romData[byteToUse + 22] = (byte)((buyPrice / 65536) % 256);
-                    romData[byteToUse + 23] = (byte)(buyPrice / 1677216);
+                    //int sellPrice = r1.Next() % buyPrice;
+                    //romData[byteToUse + 20] = (byte)(buyPrice % 256);
+                    //romData[byteToUse + 21] = (byte)((buyPrice / 256) % 256);
+                    //romData[byteToUse + 22] = (byte)((buyPrice / 65536) % 256);
+                    //romData[byteToUse + 23] = (byte)(buyPrice / 1677216);
 
-                    romData[byteToUse + 24] = (byte)(sellPrice % 256);
-                    romData[byteToUse + 25] = (byte)((sellPrice / 256) % 256);
-                    romData[byteToUse + 26] = (byte)((sellPrice / 65536) % 256);
-                    romData[byteToUse + 27] = (byte)(sellPrice / 1677216);
+                    //romData[byteToUse + 24] = (byte)(sellPrice % 256);
+                    //romData[byteToUse + 25] = (byte)((sellPrice / 256) % 256);
+                    //romData[byteToUse + 26] = (byte)((sellPrice / 65536) % 256);
+                    //romData[byteToUse + 27] = (byte)(sellPrice / 1677216);
                 }
 
                 // Randomize Armor
@@ -430,65 +430,65 @@ namespace FFRPSP
                     romData[byteToUse + 2] = (byte)(equip1);
                     romData[byteToUse + 3] = (byte)(equip2);
 
-                    romData[byteToUse + 4] = (byte)inverted_power_curve(2, 60, .5, r1);
-                    romData[byteToUse + 5] = (byte)inverted_power_curve(2, 40, .5, r1);
-                    if (r1.Next() % 6 == 0)
-                        romData[byteToUse + 6] = (byte)inverted_power_curve(1, 60, .2, r1);
-                    else
-                        romData[byteToUse + 6] = 0;
+                    //romData[byteToUse + 4] = (byte)inverted_power_curve(2, 60, .5, r1);
+                    //romData[byteToUse + 5] = (byte)inverted_power_curve(2, 40, .5, r1);
+                    //if (r1.Next() % 6 == 0)
+                    //    romData[byteToUse + 6] = (byte)inverted_power_curve(1, 60, .2, r1);
+                    //else
+                    //    romData[byteToUse + 6] = 0;
 
-                    if (r1.Next() % 15 == 0)
-                        romData[byteToUse + 7] = (byte)(r1.Next() % 0x41);
-                    else
-                        romData[byteToUse + 7] = 0;
+                    //if (r1.Next() % 15 == 0)
+                    //    romData[byteToUse + 7] = (byte)(r1.Next() % 0x41);
+                    //else
+                    //    romData[byteToUse + 7] = 0;
 
-                    for (int lnJ = 10; lnJ <= 13; lnJ++)
-                    {
-                        if (r1.Next() % 6 == 0)
-                        {
-                            romData[byteToUse + lnJ] = (byte)inverted_power_curve(1, 30, .5, r1);
-                            if (r1.Next() % 5 == 0)
-                                romData[byteToUse + lnJ] = (byte)(256 - (romData[byteToUse + lnJ]));
-                        }
-                        else
-                            romData[byteToUse + lnJ] = 0;
-                    }
+                    //for (int lnJ = 10; lnJ <= 13; lnJ++)
+                    //{
+                    //    if (r1.Next() % 6 == 0)
+                    //    {
+                    //        romData[byteToUse + lnJ] = (byte)inverted_power_curve(1, 30, .5, r1);
+                    //        if (r1.Next() % 5 == 0)
+                    //            romData[byteToUse + lnJ] = (byte)(256 - (romData[byteToUse + lnJ]));
+                    //    }
+                    //    else
+                    //        romData[byteToUse + lnJ] = 0;
+                    //}
 
-                    for (int lnJ = 14; lnJ <= 15; lnJ++)
-                    {
-                        if (r1.Next() % 20 == 0)
-                            romData[byteToUse + lnJ] = (byte)inverted_power_curve(1, 30, .5, r1);
-                        else
-                            romData[byteToUse + lnJ] = 0;
-                    }
+                    //for (int lnJ = 14; lnJ <= 15; lnJ++)
+                    //{
+                    //    if (r1.Next() % 20 == 0)
+                    //        romData[byteToUse + lnJ] = (byte)inverted_power_curve(1, 30, .5, r1);
+                    //    else
+                    //        romData[byteToUse + lnJ] = 0;
+                    //}
 
-                    int spellPrice = (romData[byteToUse + 7] > 32 ? romData[byteToUse + 7] - 32 : romData[byteToUse + 7]);
-                    double price = Math.Pow(romData[byteToUse + 4], 2.3) +
-                                   Math.Pow(romData[byteToUse + 6] + romData[byteToUse + 5], 2) +
-                                   Math.Pow(spellPrice, 2.7) +
-                                   Math.Pow((romData[byteToUse + 10] > 128 ? 0 : romData[byteToUse + 10]), 2.7) +
-                                   Math.Pow((romData[byteToUse + 11] > 128 ? 0 : romData[byteToUse + 11]), 2.7) +
-                                   Math.Pow((romData[byteToUse + 12] > 128 ? 0 : romData[byteToUse + 12]), 2.7) +
-                                   Math.Pow((romData[byteToUse + 13] > 128 ? 0 : romData[byteToUse + 13]), 2.7) +
-                                   Math.Pow(romData[byteToUse + 14], 2.7) +
-                                   Math.Pow(romData[byteToUse + 15], 2.7);
-                    price = Math.Ceiling(price);
-                    price = (price > 99999 ? 99999 : price);
-                    price = (price < 4 ? 4 : price);
-                    int buyPrice = (int)price;
-                    buyPrice = buyPrice * trkXPReqAdj.Value * 5 / 100;
-                    buyPrice = ScaleValue(buyPrice, trkRandomPrices.Value / 10, 1.0, r1);
+                    //int spellPrice = (romData[byteToUse + 7] > 32 ? romData[byteToUse + 7] - 32 : romData[byteToUse + 7]);
+                    //double price = Math.Pow(romData[byteToUse + 4], 2.3) +
+                    //               Math.Pow(romData[byteToUse + 6] + romData[byteToUse + 5], 2) +
+                    //               Math.Pow(spellPrice, 2.7) +
+                    //               Math.Pow((romData[byteToUse + 10] > 128 ? 0 : romData[byteToUse + 10]), 2.7) +
+                    //               Math.Pow((romData[byteToUse + 11] > 128 ? 0 : romData[byteToUse + 11]), 2.7) +
+                    //               Math.Pow((romData[byteToUse + 12] > 128 ? 0 : romData[byteToUse + 12]), 2.7) +
+                    //               Math.Pow((romData[byteToUse + 13] > 128 ? 0 : romData[byteToUse + 13]), 2.7) +
+                    //               Math.Pow(romData[byteToUse + 14], 2.7) +
+                    //               Math.Pow(romData[byteToUse + 15], 2.7);
+                    //price = Math.Ceiling(price);
+                    //price = (price > 99999 ? 99999 : price);
+                    //price = (price < 4 ? 4 : price);
+                    //int buyPrice = (int)price;
+                    //buyPrice = buyPrice * trkXPReqAdj.Value * 5 / 100;
+                    //buyPrice = ScaleValue(buyPrice, trkRandomPrices.Value / 10, 1.0, r1);
 
-                    int sellPrice = r1.Next() % buyPrice;
-                    romData[byteToUse + 20] = (byte)(buyPrice % 256);
-                    romData[byteToUse + 21] = (byte)((buyPrice / 256) % 256);
-                    romData[byteToUse + 22] = (byte)((buyPrice / 65536) % 256);
-                    romData[byteToUse + 23] = (byte)(buyPrice / 1677216);
+                    //int sellPrice = r1.Next() % buyPrice;
+                    //romData[byteToUse + 20] = (byte)(buyPrice % 256);
+                    //romData[byteToUse + 21] = (byte)((buyPrice / 256) % 256);
+                    //romData[byteToUse + 22] = (byte)((buyPrice / 65536) % 256);
+                    //romData[byteToUse + 23] = (byte)(buyPrice / 1677216);
 
-                    romData[byteToUse + 24] = (byte)(sellPrice % 256);
-                    romData[byteToUse + 25] = (byte)((sellPrice / 256) % 256);
-                    romData[byteToUse + 26] = (byte)((sellPrice / 65536) % 256);
-                    romData[byteToUse + 27] = (byte)(sellPrice / 1677216);
+                    //romData[byteToUse + 24] = (byte)(sellPrice % 256);
+                    //romData[byteToUse + 25] = (byte)((sellPrice / 256) % 256);
+                    //romData[byteToUse + 26] = (byte)((sellPrice / 65536) % 256);
+                    //romData[byteToUse + 27] = (byte)(sellPrice / 1677216);
                 }
             }
 
@@ -997,7 +997,6 @@ namespace FFRPSP
                     return "Golden Staff";
             }
             return "";
-
         }
 
         private void randomizeTreasures(Random r1)
@@ -1015,74 +1014,11 @@ namespace FFRPSP
                     if (r1.Next() % 2 == 1)
                     {
                         int itemChoice = r1.Next() % 31;
-                        int finalItem = 0;
-                        switch (itemChoice)
-                        {
-                            case 0:
-                                finalItem = 1; break;
-                            case 1:
-                                finalItem = 2; break;
-                            case 2:
-                                finalItem = 4; break;
-                            case 3:
-                                finalItem = 5; break;
-                            case 4:
-                                finalItem = 7; break;
-                            case 5:
-                                finalItem = 9; break;
-                            case 6:
-                                finalItem = 10; break;
-                            case 7:
-                                finalItem = 11; break;
-                            case 8:
-                                finalItem = 12; break;
-                            case 9:
-                                finalItem = 13; break;
-                            case 10:
-                                finalItem = 14; break;
-                            case 11:
-                                finalItem = 15; break;
-                            case 12:
-                                finalItem = 16; break;
-                            case 13:
-                                finalItem = 17; break;
-                            case 14:
-                                finalItem = 19; break;
-                            case 15:
-                                finalItem = 20; break;
-                            case 16:
-                                finalItem = 21; break;
-                            case 17:
-                                finalItem = 22; break;
-                            case 18:
-                                finalItem = 23; break;
-                            case 19:
-                                finalItem = 24; break;
-                            case 20:
-                                finalItem = 25; break;
-                            case 21:
-                                finalItem = 26; break;
-                            case 22:
-                                finalItem = 27; break;
-                            case 23:
-                                finalItem = 28; break;
-                            case 24:
-                                finalItem = 29; break;
-                            case 25:
-                                finalItem = 30; break;
-                            case 26:
-                                finalItem = 31; break;
-                            case 27:
-                                finalItem = 32; break;
-                            case 28:
-                                finalItem = 33; break;
-                            case 29:
-                                finalItem = 34; break;
-                            case 30:
-                                finalItem = 35; break;
-                            default:
-                                finalItem = 0; break;
-                        }
+                        int[] finalItemArray = { 1, 2, 4, 5, 7, 9, 10, 11, 12, 13,
+                            14, 15, 16, 17, 19, 20, 21, 22, 23, 24,
+                            25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35 };
+                        int finalItem = finalItemArray[itemChoice];
+
                         romData[lnI + 3] = 0x80;
                         romData[lnI + 0] = 0x01;
                         romData[lnI + 1] = (byte)finalItem;
@@ -1106,36 +1042,8 @@ namespace FFRPSP
                     else if (r1.Next() % 2 == 1)
                     {
                         int itemChoice = r1.Next() % 12;
-                        int finalItem = 0;
-                        switch (itemChoice)
-                        {
-                            case 0:
-                                finalItem = 3; break;
-                            case 1:
-                                finalItem = 6; break;
-                            case 2:
-                                finalItem = 8; break;
-                            case 3:
-                                finalItem = 18; break;
-                            case 4:
-                                finalItem = 36; break;
-                            case 5:
-                                finalItem = 37; break;
-                            case 6:
-                                finalItem = 38; break;
-                            case 7:
-                                finalItem = 39; break;
-                            case 8:
-                                finalItem = 40; break;
-                            case 9:
-                                finalItem = 41; break;
-                            case 10:
-                                finalItem = 42; break;
-                            case 11:
-                                finalItem = 43; break;
-                            default:
-                                finalItem = 0; break;
-                        }
+                        int[] finalItemArray = { 3, 6, 8, 18, 36, 37, 38, 39, 40, 41, 42, 43 };
+                        int finalItem = finalItemArray[itemChoice];
 
                         romData[lnI + 3] = 0x80;
                         romData[lnI + 2] = 0x00;
@@ -1182,9 +1090,10 @@ namespace FFRPSP
             for (int lnI = 0; lnI < 0x2b; lnI++)
             {
                 int byteToUse = 0x2b2f95c + (0x10 * lnI);
-                itemPrices[lnI] = itemPrices[lnI] * trkXPReqAdj.Value * 5 / 100;
+                itemPrices[lnI] = itemPrices[lnI] * trkGilReqAdj.Value * 5 / 100;
 
                 itemPrices[lnI] = ScaleValue(itemPrices[lnI], trkRandomPrices.Value / 10, 1.0, r1);
+                itemPrices[lnI] = Math.Min(99999, itemPrices[lnI]);
 
                 romData[byteToUse + 0] = (byte)(itemPrices[lnI] % 256);
                 romData[byteToUse + 1] = (byte)((itemPrices[lnI] / 256) % 256);
@@ -1197,11 +1106,54 @@ namespace FFRPSP
             {
                 int byteToUse = (0x2b30d6e + (14 * lnI) + 12);
                 int price = (romData[byteToUse + 1] * 256) + romData[byteToUse];
-                price = price * trkXPReqAdj.Value * 5 / 100;
+                price = price * trkGilReqAdj.Value * 5 / 100;
                 price = ScaleValue(price, trkRandomPrices.Value / 10, 1.0, r1);
                 price = (price > 65500 ? 65500 : price);
                 romData[byteToUse] = (byte)(price % 256);
                 romData[byteToUse + 1] = (byte)(price / 256);
+            }
+
+            // Randomize weapon store prices
+            for (int lnI = 0; lnI < 0x43; lnI++)
+            {
+                int byteToUse = 0x2b2fc20 + (lnI * 28);
+                int price = romData[byteToUse + 20] + (romData[byteToUse + 21] * 256) + (romData[byteToUse + 22] * 65536);
+                if (lnI == 40) price = 50000;
+                if (lnI == 41) price = 100000;
+                if (lnI == 42) price = 50000;
+                if (lnI == 43) price = 77777;
+                if (lnI == 44) price = 60000;
+                if (lnI == 45) price = 100000;
+                price = price * trkGilReqAdj.Value * 5 / 100;
+                price = ScaleValue(price, trkRandomPrices.Value / 10, 1.0, r1);
+                price = Math.Min(99999, price);
+                romData[byteToUse + 20] = (byte)(price % 256);
+                romData[byteToUse + 21] = (byte)((price % 65536) / 256);
+                romData[byteToUse + 22] = (byte)(price / 65536);
+
+                price /= 2;
+                romData[byteToUse + 24] = (byte)(price % 256);
+                romData[byteToUse + 25] = (byte)((price % 65536) / 256);
+                romData[byteToUse + 26] = (byte)(price / 65536);
+            }
+
+            // Randomize armor store prices
+            for (int lnI = 0; lnI < 0x4b; lnI++)
+            {
+                int byteToUse = 0x2b30390 + (lnI * 28);
+
+                int price = romData[byteToUse + 20] + (romData[byteToUse + 21] * 256) + (romData[byteToUse + 22] * 65536);
+                price = price * trkGilReqAdj.Value * 5 / 100;
+                price = ScaleValue(price, trkRandomPrices.Value / 10, 1.0, r1);
+                price = Math.Min(99999, price);
+                romData[byteToUse + 20] = (byte)(price % 256);
+                romData[byteToUse + 21] = (byte)((price % 65536) / 256);
+                romData[byteToUse + 22] = (byte)(price / 65536);
+
+                price /= 2;
+                romData[byteToUse + 24] = (byte)(price % 256);
+                romData[byteToUse + 25] = (byte)((price % 65536) / 256);
+                romData[byteToUse + 26] = (byte)(price / 65536);
             }
 
             if (chkRandomizeItemStores.Checked || chkRandomizeEquipStores.Checked || chkRandomizeMagicStores.Checked)
@@ -1220,18 +1172,24 @@ namespace FFRPSP
                 };
                 int[,] storeSizes =
                 {
-                    { 5, 4, 4, 4, 4, -1, 1, -1 },
-                    { 3, 5, 5, 5, 5, -1, 2, -1 },
-                    { 4, 5, 5, -1, 5, 5, 5, -1 },
-                    { 4, 4, 4, 4, 4, 2, 2, 1 },
-                    { -1, -1, 4, -1, -1, -1, 3, -1 },
-                    { 4, 4, 4, 4, 4, 2, 2, 1 },
-                    { -1, -1, 4, -1, -1, -1, 3, -1 }
+                    { 5, 4, 4, 4, 4, -1, 1, -1 }, // Weapons
+                    { 3, 5, 5, 5, 5, -1, 2, -1 }, // Armor
+                    { 7, 7, 7, -1, 7, 7, 7, -1 }, // Items
+                    { 4, 4, 4, 4, 4, 2, 2, 1 }, // White Magic
+                    { -1, -1, 4, -1, -1, -1, 3, -1 }, // White Magic 2
+                    { 4, 4, 4, 4, 4, 2, 2, 1 }, // Black Magic
+                    { -1, -1, 4, -1, -1, -1, 3, -1 } // Black Magic 2
                 };
+
+                // Ensure item stores have seven slots instead of four or five.
+                romData[0x2b1a314] = romData[0x2b1a33c] = romData[0x2b1a364] = romData[0x2b1a3bc] = romData[0x2b1a3d4] = romData[0x2b1a3fc] = 0x37;
+                romData[0x2b1a43c] = 0x47;
 
                 int[] minNumber = { 1, 1, 1, 1, 1, 0x21, 0x21 };
                 int[] maxNumber = { 0x43, 0x4b, 0x2b, 0x20, 0x20, 0x40, 0x40 };
 
+                int[] commonItems = { 0x01, 0x02, 0x04, 0x05, 0x09, 0x0b, 0x0c, 0x0f, 0x10, 0x11 };
+                int[] rareItems = { 0x03, 0x06, 0x07, 0x08, 0x0a, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a, 0x2b };
                 for (int lnI = 0; lnI < 8; lnI++)
                     for (int lnJ = 0; lnJ < 7; lnJ++)
                     {
@@ -1244,7 +1202,18 @@ namespace FFRPSP
                         {
                             if (stores[lnJ, lnI] == -1) continue;
                             int byteToUse = 0x2b1a1dc + (cityStarts[lnI] + stores[lnJ, lnI]) + lnK;
-                            romData[byteToUse] = (byte)(r1.Next() % (maxNumber[lnJ] - minNumber[lnJ] + 1) + minNumber[lnJ]);
+                            if (lnJ == 2 && (((lnI == 0 || lnI == 1) && lnK <= 4) || ((lnI == 2 || lnI == 3) && lnK <= 1)))
+                            {
+                                romData[byteToUse] = (byte)(commonItems[r1.Next() % commonItems.Length]);
+                            }
+                            else if (lnJ == 2 && (((lnI == 5 || lnI == 6) && lnK <= 1) || lnI == 7))
+                            {
+                                romData[byteToUse] = (byte)(rareItems[r1.Next() % rareItems.Length]);
+                            }
+                            else
+                            {
+                                romData[byteToUse] = (byte)(r1.Next() % (maxNumber[lnJ] - minNumber[lnJ] + 1) + minNumber[lnJ]);
+                            }
                             if (storeStack.IndexOf(romData[byteToUse]) != -1) lnK--;
                             else storeStack.Add(romData[byteToUse]);
                         }
@@ -1285,118 +1254,169 @@ namespace FFRPSP
         {
             if (chkRandomizeMagic.Checked)
             {
-                // Need to set up a "magic array" in order to resolve the field magic bug.
-                byte[] magicNumbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64 };
-                // We'll want to shuffle not only the magic attributes, but the text as well.  We'll need several holding variables...
-                byte[] textHold = { 0, 0 };
-                byte[] magicHold = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                // Allow all characters to have level 8 magic immediately.
+                romData[0x2b316d0] = 0x08;
+                romData[0x2b316e0] = 0x08;
+                romData[0x2b316f0] = 0x08;
+                romData[0x2b31700] = 0x08;
+                romData[0x2b31710] = 0x08;
+                romData[0x2b31720] = 0x08;
+                // Remove the check for who you are to allow level 8 magic for all characters.
+                romData[0x2aacd9c] = romData[0x2aad8b0] = 0x00;
+                romData[0x2aacd9d] = romData[0x2aad8b1] = 0x00;
+                romData[0x2aacd9e] = romData[0x2aad8b2] = 0x01;
+                romData[0x2aacd9f] = romData[0x2aad8b3] = 0x24;
 
-                // Shuffle white magic, then black magic.
-                int byteToUseText = 0x2b30bc8;
-                int byteToUseMagic = 0x2b30d6e;
-
-                for (int lnK = 0; lnK < 2; lnK++)
-                    for (int lnI = 0; lnI < 32 * 40; lnI++)
-                    {
-                        int firstMagic = r1.Next() % 32 + (32 * lnK);
-                        int secondMagic = r1.Next() % 32 + (32 * lnK);
-
-                        byte magicHoldInt = magicNumbers[firstMagic];
-                        magicNumbers[firstMagic] = magicNumbers[secondMagic];
-                        magicNumbers[secondMagic] = magicHoldInt;
-
-                        ////////////////////////////////////////////////////////////
-
-                        textHold[0] = romData[byteToUseText + (firstMagic * 4) + 0];
-                        textHold[1] = romData[byteToUseText + (firstMagic * 4) + 2];
-
-                        for (int lnJ = 0; lnJ < 9; lnJ++)
-                            magicHold[lnJ] = romData[byteToUseMagic + (firstMagic * 14) + lnJ];
-
-                        romData[byteToUseText + (firstMagic * 4) + 0] = romData[byteToUseText + (secondMagic * 4) + 0];
-                        romData[byteToUseText + (firstMagic * 4) + 2] = romData[byteToUseText + (secondMagic * 4) + 2];
-
-                        for (int lnJ = 0; lnJ < 9; lnJ++)
-                            romData[byteToUseMagic + (firstMagic * 14) + lnJ] = romData[byteToUseMagic + (secondMagic * 14) + lnJ];
-
-                        romData[byteToUseText + (secondMagic * 4) + 0] = textHold[0];
-                        romData[byteToUseText + (secondMagic * 4) + 2] = textHold[1];
-
-                        for (int lnJ = 0; lnJ < 9; lnJ++)
-                            romData[byteToUseMagic + (secondMagic * 14) + lnJ] = magicHold[lnJ];
-                    }
-
-                for (int lnI = 0; lnI < magicNumbers.Length; lnI++)
+                // Randomize "level" of magic.  This will set price and MP cost instead of the actual magic level.
+                for (int lnI = 0; lnI < 64; lnI++)
                 {
-                    int booster = -99;
-                    switch (magicNumbers[lnI])
+                    int byteToUseMagic = 0x2b30d6e + (lnI * 14);
+                    int magicLevel = r1.Next() % 8;
+                    int mpCost = (magicLevel == 0 ? 5 : magicLevel == 1 ? 8 : magicLevel == 2 ? 10 : magicLevel == 3 ? 15 : magicLevel == 4 ? 20 : magicLevel == 5 ? 25 : magicLevel == 6 ? 35 : 50);
+
+                    int gilCost = (magicLevel == 0 ? 50 : magicLevel == 1 ? 250 : magicLevel == 2 ? 1000 : magicLevel == 3 ? 2500 : magicLevel == 4 ? 4000 : magicLevel == 5 ? 13000 : magicLevel == 6 ? 30000 : 40000);
+
+                    romData[byteToUseMagic + 10] = (byte)mpCost;
+                    romData[byteToUseMagic + 12] = (byte)(gilCost % 256);
+                    romData[byteToUseMagic + 13] = (byte)(gilCost / 256);
+                }
+
+                // Randomize who can learn magic.  75% chance for each spell for each of the white/black mages, 100% for the white/black wizards.  50% chance for red mages, an additional 50% for red wizard.  33% chance for Ninjas.
+                for (int lnI = 0; lnI < 64; lnI++)
+                {
+                    int byteToUse = 0x2b313ca + (2 * lnI);
+                    romData[byteToUse] = 0;
+                    romData[byteToUse + 1] = (byte)(lnI < 32 ? 0x10 : 0x20);
+
+                    bool firstChance = (r1.Next() % 4 > 0);
+                    if (firstChance) romData[byteToUse] += (byte)(lnI < 32 ? 0x10 : 0x20);
+
+                    firstChance = (r1.Next() % 2 == 0);
+                    if (firstChance) romData[byteToUse] += 0x08;
+                    if (firstChance) romData[byteToUse + 1] += 0x08;
+
+                    if (!firstChance)
                     {
-                        case 1:
-                            // For correct healing.  (all extra lines are for that purpose)
-                            romData[0x2aae1c4] = (byte)(lnI + 1);
-                            booster = 11;
-                            break;
-                        case 9:
-                            romData[0x2aae1ac] = (byte)(lnI + 1);
-                            booster = 10;
-                            break;
-                        case 17:
-                            romData[0x2aae194] = (byte)(lnI + 1);
-                            booster = 9;
-                            break;
-                        case 25:
-                            booster = 8;
-                            break;
-                        case 12:
-                            romData[0x2aae1b8] = (byte)(lnI + 1);
-                            booster = 7;
-                            break;
-                        case 20:
-                            romData[0x2aae1a0] = (byte)(lnI + 1);
-                            booster = 6;
-                            break;
-                        case 28:
-                            romData[0x2aae188] = (byte)(lnI + 1);
-                            booster = 5;
-                            break;
-                        case 18:
-                            booster = 4;
-                            break;
-                        case 29:
-                            booster = 3;
-                            break;
-                        case 13:
-                            booster = 2;
-                            break;
-                        case 21:
-                            booster = 1;
-                            break;
-                        case 22:
-                            booster = 0;
-                            break;
-                        case 51:
-                            booster = -1;
-                            break;
+                        firstChance = (r1.Next() % 2 == 0);
+                        if (firstChance) romData[byteToUse + 1] += 0x08;
                     }
 
-                    if (booster == -1)
-                    {
-                        romData[0x2a9eef4] = (byte)(lnI + 1);
-                        romData[0x2aa0040] = (byte)(lnI + 1);
-                        romData[0x2aa0320] = (byte)(lnI + 1);
-                        romData[0x2aaf648] = (byte)(lnI + 1);
-                    }
-                    if (booster == 0)
-                    {
-                        romData[0x2a9eee8] = (byte)(lnI + 1);
-                    }
-                    if (booster >= 0)
-                    {
-                        romData[0x2aa0054 + (booster * 12)] = (byte)(lnI + 1);
-                        romData[0x2aa0338 + (booster * 12)] = (byte)(lnI + 1);
-                        romData[0x2aaf654 + (booster * 12)] = (byte)(lnI + 1);
-                    }
+                    firstChance = (r1.Next() % 3 == 0);
+                    if (firstChance) romData[byteToUse + 1] += (byte)(lnI < 32 ? 0x01 : 0x02);
                 }
+
+                //// Need to set up a "magic array" in order to resolve the field magic bug.
+                //byte[] magicNumbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64 };
+                //// We'll want to shuffle not only the magic attributes, but the text as well.  We'll need several holding variables...
+                //byte[] textHold = { 0, 0 };
+                //byte[] magicHold = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+                //// Shuffle white magic, then black magic.
+                //int byteToUseText = 0x2b30bc8;
+                //int byteToUseMagic = 0x2b30d6e;
+
+                //for (int lnK = 0; lnK < 2; lnK++)
+                //    for (int lnI = 0; lnI < 32 * 40; lnI++)
+                //    {
+                //        int firstMagic = r1.Next() % 32 + (32 * lnK);
+                //        int secondMagic = r1.Next() % 32 + (32 * lnK);
+
+                //        byte magicHoldInt = magicNumbers[firstMagic];
+                //        magicNumbers[firstMagic] = magicNumbers[secondMagic];
+                //        magicNumbers[secondMagic] = magicHoldInt;
+
+                //        ////////////////////////////////////////////////////////////
+
+                //        textHold[0] = romData[byteToUseText + (firstMagic * 4) + 0];
+                //        textHold[1] = romData[byteToUseText + (firstMagic * 4) + 2];
+
+                //        for (int lnJ = 0; lnJ < 9; lnJ++)
+                //            magicHold[lnJ] = romData[byteToUseMagic + (firstMagic * 14) + lnJ];
+
+                //        romData[byteToUseText + (firstMagic * 4) + 0] = romData[byteToUseText + (secondMagic * 4) + 0];
+                //        romData[byteToUseText + (firstMagic * 4) + 2] = romData[byteToUseText + (secondMagic * 4) + 2];
+
+                //        for (int lnJ = 0; lnJ < 9; lnJ++)
+                //            romData[byteToUseMagic + (firstMagic * 14) + lnJ] = romData[byteToUseMagic + (secondMagic * 14) + lnJ];
+
+                //        romData[byteToUseText + (secondMagic * 4) + 0] = textHold[0];
+                //        romData[byteToUseText + (secondMagic * 4) + 2] = textHold[1];
+
+                //        for (int lnJ = 0; lnJ < 9; lnJ++)
+                //            romData[byteToUseMagic + (secondMagic * 14) + lnJ] = magicHold[lnJ];
+                //    }
+
+                //for (int lnI = 0; lnI < magicNumbers.Length; lnI++)
+                //{
+                //    int booster = -99;
+                //    switch (magicNumbers[lnI])
+                //    {
+                //        case 1:
+                //            // For correct healing.  (all extra lines are for that purpose)
+                //            romData[0x2aae1c4] = (byte)(lnI + 1);
+                //            booster = 11;
+                //            break;
+                //        case 9:
+                //            romData[0x2aae1ac] = (byte)(lnI + 1);
+                //            booster = 10;
+                //            break;
+                //        case 17:
+                //            romData[0x2aae194] = (byte)(lnI + 1);
+                //            booster = 9;
+                //            break;
+                //        case 25:
+                //            booster = 8;
+                //            break;
+                //        case 12:
+                //            romData[0x2aae1b8] = (byte)(lnI + 1);
+                //            booster = 7;
+                //            break;
+                //        case 20:
+                //            romData[0x2aae1a0] = (byte)(lnI + 1);
+                //            booster = 6;
+                //            break;
+                //        case 28:
+                //            romData[0x2aae188] = (byte)(lnI + 1);
+                //            booster = 5;
+                //            break;
+                //        case 18:
+                //            booster = 4;
+                //            break;
+                //        case 29:
+                //            booster = 3;
+                //            break;
+                //        case 13:
+                //            booster = 2;
+                //            break;
+                //        case 21:
+                //            booster = 1;
+                //            break;
+                //        case 22:
+                //            booster = 0;
+                //            break;
+                //        case 51:
+                //            booster = -1;
+                //            break;
+                //    }
+
+                //    if (booster == -1)
+                //    {
+                //        romData[0x2a9eef4] = (byte)(lnI + 1);
+                //        romData[0x2aa0040] = (byte)(lnI + 1);
+                //        romData[0x2aa0320] = (byte)(lnI + 1);
+                //        romData[0x2aaf648] = (byte)(lnI + 1);
+                //    }
+                //    if (booster == 0)
+                //    {
+                //        romData[0x2a9eee8] = (byte)(lnI + 1);
+                //    }
+                //    if (booster >= 0)
+                //    {
+                //        romData[0x2aa0054 + (booster * 12)] = (byte)(lnI + 1);
+                //        romData[0x2aa0338 + (booster * 12)] = (byte)(lnI + 1);
+                //        //romData[0x2aaf654 + (booster * 12)] = (byte)(lnI + 1);
+                //    }
+                //}
             }
         }
 
@@ -1454,6 +1474,12 @@ namespace FFRPSP
             lblXPReqAdj.Text = "XP Req Adjustment\r\n" + (trkXPReqAdj.Value * 5).ToString() + "%";
         }
 
+
+        private void trkGilReqAdj_Scroll(object sender, EventArgs e)
+        {
+            lblGilReqAdj.Text = "Gil Req Adjustment\r\n" + (trkGilReqAdj.Value * 5).ToString() + "%";
+        }
+
         private void trkXPBoost_Scroll(object sender, EventArgs e)
         {
             lblXPBoost.Text = "Monster XP Boost\r\n+" + (trkXPBoost.Value * 5).ToString();
@@ -1495,6 +1521,7 @@ namespace FFRPSP
             number = (chkRandomizeItemStores.Checked ? 1 : 0) + (chkRandomizeEquipStores.Checked ? 2 : 0) + (chkRandomizeMagicStores.Checked ? 4 : 0) + (chkShuffleMagicStores.Checked ? 8 : 0);
             flags += convertIntToChar(number);
             flags += convertIntToChar(trkXPReqAdj.Value);
+            flags += convertIntToChar(trkGilReqAdj.Value);
             flags += convertIntToChar(trkXPBoost.Value);
             flags += convertIntToChar(trkEncounterRate.Value);
             flags += convertIntToChar(trkRandomPrices.Value);
@@ -1521,13 +1548,15 @@ namespace FFRPSP
             chkShuffleMagicStores.Checked = (number % 16 >= 8);
             trkXPReqAdj.Value = convertChartoInt(Convert.ToChar(flags.Substring(2, 1)));
             trkXPReqAdj_Scroll(null, null);
-            trkXPBoost.Value = convertChartoInt(Convert.ToChar(flags.Substring(3, 1)));
+            trkGilReqAdj.Value = convertChartoInt(Convert.ToChar(flags.Substring(3, 1)));
+            trkGilReqAdj_Scroll(null, null);
+            trkXPBoost.Value = convertChartoInt(Convert.ToChar(flags.Substring(4, 1)));
             trkXPBoost_Scroll(null, null);
-            trkEncounterRate.Value = convertChartoInt(Convert.ToChar(flags.Substring(4, 1)));
+            trkEncounterRate.Value = convertChartoInt(Convert.ToChar(flags.Substring(5, 1)));
             trkEncounterRate_Scroll(null, null);
-            trkRandomPrices.Value = convertChartoInt(Convert.ToChar(flags.Substring(5, 1)));
+            trkRandomPrices.Value = convertChartoInt(Convert.ToChar(flags.Substring(6, 1)));
             trkRandomPrices_Scroll(null, null);
-            trkRandomStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(6, 1)));
+            trkRandomStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(7, 1)));
             trkRandomStats_Scroll(null, null);
         }
 
@@ -1615,8 +1644,8 @@ namespace FFRPSP
         private void cmdStdShortcut_Click(object sender, EventArgs e)
         {
             chkRandomizeMonsterZones.Checked = true;
-            chkRandomizeMonsterPatterns.Checked = true;
-            chkRandomizeSpecialMonsters.Checked = false;
+            chkRandomizeMonsterPatterns.Checked = false;
+            chkRandomizeSpecialMonsters.Checked = true;
             chkRandomizeTreasures.Checked = true;
             chkRandomizeEquipment.Checked = false;
             chkRandomizeMagic.Checked = true;
@@ -1626,11 +1655,13 @@ namespace FFRPSP
             chkShuffleMagicStores.Checked = true;
             trkEncounterRate.Value = 10;
             trkXPReqAdj.Value = 10;
+            trkGilReqAdj.Value = 4;
             trkXPBoost.Value = 20;
             trkRandomPrices.Value = 20;
             trkRandomStats.Value = 20;
             trkEncounterRate_Scroll(null, null);
             trkXPReqAdj_Scroll(null, null);
+            trkGilReqAdj_Scroll(null, null);
             trkXPBoost_Scroll(null, null);
             trkRandomPrices_Scroll(null, null);
             trkRandomStats_Scroll(null, null);
@@ -1639,8 +1670,8 @@ namespace FFRPSP
         private void btnQuickShortcut_Click(object sender, EventArgs e)
         {
             chkRandomizeMonsterZones.Checked = true;
-            chkRandomizeMonsterPatterns.Checked = true;
-            chkRandomizeSpecialMonsters.Checked = false;
+            chkRandomizeMonsterPatterns.Checked = false;
+            chkRandomizeSpecialMonsters.Checked = true;
             chkRandomizeTreasures.Checked = true;
             chkRandomizeEquipment.Checked = false;
             chkRandomizeMagic.Checked = true;
@@ -1650,11 +1681,39 @@ namespace FFRPSP
             chkShuffleMagicStores.Checked = true;
             trkEncounterRate.Value = 5;
             trkXPReqAdj.Value = 5;
+            trkGilReqAdj.Value = 4;
             trkXPBoost.Value = 20;
             trkRandomPrices.Value = 20;
             trkRandomStats.Value = 20;
             trkEncounterRate_Scroll(null, null);
             trkXPReqAdj_Scroll(null, null);
+            trkGilReqAdj_Scroll(null, null);
+            trkXPBoost_Scroll(null, null);
+            trkRandomPrices_Scroll(null, null);
+            trkRandomStats_Scroll(null, null);
+        }
+
+        private void btnChaosShortcut_Click(object sender, EventArgs e)
+        {
+            chkRandomizeMonsterZones.Checked = true;
+            chkRandomizeMonsterPatterns.Checked = true;
+            chkRandomizeSpecialMonsters.Checked = true;
+            chkRandomizeTreasures.Checked = true;
+            chkRandomizeEquipment.Checked = true;
+            chkRandomizeMagic.Checked = true;
+            chkRandomizeEquipStores.Checked = true;
+            chkRandomizeItemStores.Checked = true;
+            chkRandomizeMagicStores.Checked = true;
+            chkShuffleMagicStores.Checked = false;
+            trkEncounterRate.Value = 5;
+            trkXPReqAdj.Value = 4;
+            trkGilReqAdj.Value = 4;
+            trkXPBoost.Value = 20;
+            trkRandomPrices.Value = 20;
+            trkRandomStats.Value = 20;
+            trkEncounterRate_Scroll(null, null);
+            trkXPReqAdj_Scroll(null, null);
+            trkGilReqAdj_Scroll(null, null);
             trkXPBoost_Scroll(null, null);
             trkRandomPrices_Scroll(null, null);
             trkRandomStats_Scroll(null, null);
