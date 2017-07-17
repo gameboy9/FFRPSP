@@ -14,6 +14,7 @@
 - Randomize XP/GP gains from monsters.
 - Randomize monster stats.
 - Randomize hero statistics.
+- Create a livepatch so more players can access this randomizer.
 
 ## Special Thanks
 - Mcgrew, for his Dragon Warrior 1 Randomizer(https://github.com/mcgrew/dwrandomizer), giving me the inspiration to create this randomizer.  Twitch:  http://www.twitch.tv/mcgrew
