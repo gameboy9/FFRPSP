@@ -20,7 +20,6 @@ namespace FFRPSP
         {
             if (!loadRom()) return;            
 
-            overrideEboot();
             adjustEncounterRate();
             adjustXPRequirements();
             boostXP();
@@ -32,6 +31,7 @@ namespace FFRPSP
             randomizeMonsterZonesV2(r1);
             randomizeMagic(r1);
             randomizeStores(r1);
+            overrideEboot();
 
             saveRom();
             lblResults.Text = "Hacking complete!  (" + Path.Combine(Path.GetDirectoryName(txtFileName.Text), Path.GetFileNameWithoutExtension(txtFileName.Text) + "_" + txtSeed.Text + "_" + txtFlags.Text + ".iso)");
@@ -1158,42 +1158,45 @@ namespace FFRPSP
 
             if (chkRandomizeItemStores.Checked || chkRandomizeEquipStores.Checked || chkRandomizeMagicStores.Checked)
             {
-                int[] cityStarts = { 0, 28, 60, 100, 124, 156, 172, 204 };
+                int[] cityStarts = { 0, 28, 60, 100, 124, 156, 172, 204, 216 };
                 // Order:  weapons, armor, items, white 1, white 2, black 1, black 2
                 int[,] stores =
                 {
-                    { 1, 1, 1, 1, 1, -1, 1, -1 },
-                    { 9, 9, 9, 9, 9, -1, 5, -1 },
-                    { 13, 17, 17, -1, 17, 1, 9, -1 },
-                    { 20, 24, 24, 16, 24, 8, 16, 0 },
-                    { -1, -1, 28, -1, -1, -1, 20, -1 },
-                    { 24, 28, 32, 20, 28, 12, 24, 4 },
-                    { -1, -1, 36, -1, -1, -1, 28, -1 }
+                    { 1, 1, 1, 1, 1, -1, 1, -1, -1 },
+                    { 9, 9, 9, 9, 9, -1, 5, -1, -1 },
+                    { 13, 17, 17, -1, 17, 1, 9, -1, 0 },
+                    { 20, 24, 24, 16, 24, 8, 16, 0, -1 },
+                    { -1, -1, 28, -1, -1, -1, 20, -1, -1 },
+                    { 24, 28, 32, 20, 28, 12, 24, 4, -1 },
+                    { -1, -1, 36, -1, -1, -1, 28, -1, -1 }
                 };
                 int[,] storeSizes =
                 {
-                    { 5, 4, 4, 4, 4, -1, 1, -1 }, // Weapons
-                    { 3, 5, 5, 5, 5, -1, 2, -1 }, // Armor
-                    { 7, 7, 7, -1, 7, 7, 7, -1 }, // Items
-                    { 4, 4, 4, 4, 4, 2, 2, 1 }, // White Magic
-                    { -1, -1, 4, -1, -1, -1, 3, -1 }, // White Magic 2
-                    { 4, 4, 4, 4, 4, 2, 2, 1 }, // Black Magic
-                    { -1, -1, 4, -1, -1, -1, 3, -1 } // Black Magic 2
+                    { 5, 4, 4, 4, 4, -1, 1, -1, -1 }, // Weapons
+                    { 3, 5, 5, 5, 5, -1, 2, -1, -1 }, // Armor
+                    { 7, 7, 7, -1, 7, 7, 7, -1, 7 }, // Items
+                    { 4, 4, 4, 4, 4, 2, 2, 1, -1 }, // White Magic
+                    { -1, -1, 4, -1, -1, -1, 3, -1, -1 }, // White Magic 2
+                    { 4, 4, 4, 4, 4, 2, 2, 1, -1 }, // Black Magic
+                    { -1, -1, 4, -1, -1, -1, 3, -1, -1 } // Black Magic 2
                 };
 
                 // Ensure item stores have seven slots instead of four or five.
                 romData[0x2b1a314] = romData[0x2b1a33c] = romData[0x2b1a364] = romData[0x2b1a3bc] = romData[0x2b1a3d4] = romData[0x2b1a3fc] = 0x37;
                 romData[0x2b1a43c] = 0x47;
 
+                romData[0x2b1a600] = romData[0x2b1a628] = romData[0x2b1a650] = romData[0x2b1a6a8] = romData[0x2b1a6c0] = romData[0x2b1a6e8] = 0x37;
+                romData[0x2b1a728] = 0x47;
+
                 int[] minNumber = { 1, 1, 1, 1, 1, 0x21, 0x21 };
                 int[] maxNumber = { 0x43, 0x4b, 0x2b, 0x20, 0x20, 0x40, 0x40 };
 
                 int[] commonItems = { 0x01, 0x02, 0x04, 0x05, 0x09, 0x0b, 0x0c, 0x0f, 0x10, 0x11 };
                 int[] rareItems = { 0x03, 0x06, 0x07, 0x08, 0x0a, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a, 0x2b };
-                for (int lnI = 0; lnI < 8; lnI++)
+                for (int lnI = 0; lnI < 9; lnI++)
                     for (int lnJ = 0; lnJ < 7; lnJ++)
                     {
-                        if ((lnJ == 0 || lnI == 1) && !chkRandomizeEquipStores.Checked) continue;
+                        if ((lnJ == 0 || lnJ == 1) && !chkRandomizeEquipStores.Checked) continue;
                         if (lnJ == 2 && !chkRandomizeItemStores.Checked) continue;
                         if (lnJ >= 3 && !chkRandomizeMagicStores.Checked) continue;
 
@@ -1202,17 +1205,21 @@ namespace FFRPSP
                         {
                             if (stores[lnJ, lnI] == -1) continue;
                             int byteToUse = 0x2b1a1dc + (cityStarts[lnI] + stores[lnJ, lnI]) + lnK;
+                            int byteToUse2 = 0x2b1a4c8 + (cityStarts[lnI] + stores[lnJ, lnI]) + lnK;
                             if (lnJ == 2 && (((lnI == 0 || lnI == 1) && lnK <= 4) || ((lnI == 2 || lnI == 3) && lnK <= 1)))
                             {
                                 romData[byteToUse] = (byte)(commonItems[r1.Next() % commonItems.Length]);
+                                romData[byteToUse2] = (byte)(commonItems[r1.Next() % commonItems.Length]);
                             }
-                            else if (lnJ == 2 && (((lnI == 5 || lnI == 6) && lnK <= 1) || lnI == 7))
+                            else if (lnJ == 2 && (((lnI == 5 || lnI == 6) && lnK <= 1) || lnI == 8))
                             {
                                 romData[byteToUse] = (byte)(rareItems[r1.Next() % rareItems.Length]);
+                                romData[byteToUse2] = (byte)(rareItems[r1.Next() % rareItems.Length]);
                             }
                             else
                             {
                                 romData[byteToUse] = (byte)(r1.Next() % (maxNumber[lnJ] - minNumber[lnJ] + 1) + minNumber[lnJ]);
+                                romData[byteToUse2] = (byte)(r1.Next() % (maxNumber[lnJ] - minNumber[lnJ] + 1) + minNumber[lnJ]);
                             }
                             if (storeStack.IndexOf(romData[byteToUse]) != -1) lnK--;
                             else storeStack.Add(romData[byteToUse]);
