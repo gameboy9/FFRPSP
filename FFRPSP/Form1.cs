@@ -1181,12 +1181,15 @@ namespace FFRPSP
                     { -1, -1, 4, -1, -1, -1, 3, -1, -1 } // Black Magic 2
                 };
 
-                // Ensure item stores have seven slots instead of four or five.
-                romData[0x2b1a314] = romData[0x2b1a33c] = romData[0x2b1a364] = romData[0x2b1a3bc] = romData[0x2b1a3d4] = romData[0x2b1a3fc] = 0x37;
-                romData[0x2b1a43c] = 0x47;
+                if (chkRandomizeItemStores.Checked)
+                {
+                    // Ensure item stores have seven slots instead of four or five.
+                    romData[0x2b1a314] = romData[0x2b1a33c] = romData[0x2b1a364] = romData[0x2b1a3bc] = romData[0x2b1a3d4] = romData[0x2b1a3fc] = 0x37;
+                    romData[0x2b1a43c] = 0x47;
 
-                romData[0x2b1a600] = romData[0x2b1a628] = romData[0x2b1a650] = romData[0x2b1a6a8] = romData[0x2b1a6c0] = romData[0x2b1a6e8] = 0x37;
-                romData[0x2b1a728] = 0x47;
+                    romData[0x2b1a600] = romData[0x2b1a628] = romData[0x2b1a650] = romData[0x2b1a6a8] = romData[0x2b1a6c0] = romData[0x2b1a6e8] = 0x37;
+                    romData[0x2b1a728] = 0x47;
+                }
 
                 int[] minNumber = { 1, 1, 1, 1, 1, 0x21, 0x21 };
                 int[] maxNumber = { 0x43, 0x4b, 0x2b, 0x20, 0x20, 0x40, 0x40 };
